@@ -3,7 +3,7 @@
 AI/ML module for KisanConnect, an agricultural marketplace aiming to reduce
 intermediaries between farmers/FPOs and buyers.
 
-**Owner:** Member 1 — AI/ML Engineer
+**Owner:** Krishika — AI/ML Engineer
 **Scope (Phase 1 prototype):** Punjab, 3 crops — Tomato, Onion, Potato
 
 ## What this module does
