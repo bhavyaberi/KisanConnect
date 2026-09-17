@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { Sprout, Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, Info } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
-import LanguageSwitcher from "./LanguageSwitcher";
 
+// One demo account per KisanConnect user type (Section 3.7 of the guide:
+// OTP for farmers/buyers, email+password with role-based access for DoCA
+// officials in the real system — this prototype keeps all three on
+// email+password for simplicity).
 export const DEMO_ACCOUNTS = {
-  farmer: { email: "suresh@kisanconnect.in", password: "farmer123", name: "Suresh Kumar", nameKey: "name.sureshKumar", region: "Kolar", regionKey: "region.kolar" },
-  buyer: { email: "meera@kisanconnect.in", password: "buyer123", name: "Meera Iyer", nameKey: "name.meeraIyer", region: "Bangalore", regionKey: "region.bangalore" },
-  admin: { email: "ananya@doca.gov.in", password: "admin123", name: "Ananya Rao", nameKey: "name.ananyaRao", region: null },
+  farmer: { email: "suresh@kisanconnect.in", password: "farmer123", name: "Suresh Kumar", region: "Kolar" },
+  buyer: { email: "meera@kisanconnect.in", password: "buyer123", name: "Meera Iyer", region: "Bangalore" },
+  admin: { email: "ananya@doca.gov.in", password: "admin123", name: "Ananya Rao", region: null },
 };
 
+// Stands in for a real backend (would be POST /auth/otp/verify per
+// Section 6 of the guide). Kept async/rejectable so swapping in a real
+// call later doesn't require touching the component below.
 function fakeLogin(role, email, password, roleLabel) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const account = DEMO_ACCOUNTS[role];
       if (email.trim().toLowerCase() === account.email && password === account.password) {
-        resolve({ name: account.name, nameKey: account.nameKey, role: roleLabel, roleKey: role });
+        resolve({ name: account.name, role: roleLabel, roleKey: role });
       } else {
         reject(new Error("mismatch"));
       }
@@ -55,7 +61,7 @@ export default function Login({ onLogin }) {
     try {
       const roleTabLabel = ROLE_TABS.find((r) => r.key === role).label;
       const account = DEMO_ACCOUNTS[role];
-      const roleLabel = account.region ? `${roleTabLabel} \u2014 ${t(account.region)}` : roleTabLabel;
+      const roleLabel = account.region ? `${roleTabLabel} \u2014 ${account.region}` : roleTabLabel;
       const user = await fakeLogin(role, email, password, roleLabel);
       onLogin(user);
     } catch {
@@ -81,23 +87,19 @@ export default function Login({ onLogin }) {
 
   const account = DEMO_ACCOUNTS[role];
   const roleTabLabel = ROLE_TABS.find((r) => r.key === role).label;
-  const roleDisplayLabel = account.region ? `${roleTabLabel} \u2014 ${t(account.region)}` : roleTabLabel;
+  const roleDisplayLabel = account.region ? `${roleTabLabel} \u2014 ${account.region}` : roleTabLabel;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0d1f14] p-4 sm:p-6">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl">
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-800">
-              <Sprout size={20} className="text-emerald-300" />
-            </div>
-            <div>
-              <p className="text-lg font-bold text-stone-900">{t("brand.name")}</p>
-              <p className="text-[10px] font-medium tracking-wider text-stone-400">{t("login.hackathonTag")}</p>
-            </div>
+    <div className="flex min-h-dvh items-center justify-center bg-[#0d1f14] p-3 py-6 sm:p-4">
+      <div className="w-full max-w-md rounded-3xl bg-white p-5 shadow-2xl sm:p-8">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-800">
+            <Sprout size={20} className="text-emerald-300" />
           </div>
-
-          <LanguageSwitcher />
+          <div>
+            <p className="text-lg font-bold text-stone-900">{t("brand.name")}</p>
+            <p className="text-[10px] font-medium tracking-wider text-stone-400">{t("login.hackathonTag")}</p>
+          </div>
         </div>
 
         {/* Role tabs */}
@@ -107,8 +109,8 @@ export default function Login({ onLogin }) {
               key={tab.key}
               type="button"
               onClick={() => handleRoleChange(tab.key)}
-              className={`flex-1 rounded-full px-2 py-2 text-xs font-semibold transition-colors ${
-                role === tab.key ? "bg-emerald-800 text-white shadow" : "text-stone-500 hover:text-stone-700"
+              className={`min-w-0 flex-1 truncate rounded-full px-2 py-2.5 text-[11px] font-semibold transition-colors sm:px-3 sm:text-xs ${
+                role === tab.key ? "bg-emerald-800 text-white" : "text-stone-500 hover:text-stone-700"
               }`}
             >
               {tab.label}
@@ -116,17 +118,16 @@ export default function Login({ onLogin }) {
           ))}
         </div>
 
-        <h2 className="text-xl sm:text-2xl font-bold text-stone-900">{t("login.welcomeBack")}</h2>
+        <h2 className="text-2xl font-bold text-stone-900">{t("login.welcomeBack")}</h2>
         <p className="mt-1 text-sm text-stone-500">{t("login.signInAs", { role: roleDisplayLabel })}</p>
 
-        {/* Demo credentials box */}
+        {/* Demo credentials — shown directly, always visible, no digging required */}
         <div className="mt-4 flex items-start gap-2 rounded-xl bg-emerald-50 px-3 py-2.5 text-xs text-emerald-800">
           <Info size={14} className="mt-0.5 flex-shrink-0" />
-          <div className="space-y-0.5">
+          <div className="min-w-0">
             <p className="font-semibold">{t("login.demoLoginFor", { role: roleTabLabel })}</p>
-            <p className="text-stone-600 font-medium">{t(account.name)}</p>
-            <p>Email: <span className="font-mono text-emerald-900 font-semibold">{account.email}</span></p>
-            <p>Password: <span className="font-mono text-emerald-900 font-semibold">{account.password}</span></p>
+            <p className="break-all">Email: <span className="font-mono">{account.email}</span></p>
+            <p className="break-all">Password: <span className="font-mono">{account.password}</span></p>
           </div>
         </div>
 
@@ -189,7 +190,7 @@ export default function Login({ onLogin }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-800 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-70 active:scale-98"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-800 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isSubmitting ? (
               <>
@@ -203,7 +204,7 @@ export default function Login({ onLogin }) {
 
         <button
           onClick={fillDemoCredentials}
-          className="mt-3 w-full text-center text-xs font-medium text-emerald-700 hover:text-emerald-900 py-1.5"
+          className="mt-3 w-full text-center text-xs font-medium text-stone-400 hover:text-emerald-700"
         >
           {t("login.autofill")}
         </button>

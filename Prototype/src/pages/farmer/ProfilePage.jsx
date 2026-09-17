@@ -1,44 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import PageHeader from "../PageHeader";
 import { supportedLanguages } from "../../data/kisanConnectData";
 import { useLanguage } from "../../i18n/LanguageContext";
 
+// Preferred language matters directly to the guide's accessibility pitch
+// (Section 2.2 / 3.7): voice input and UI both localize to whatever the
+// farmer picks here. When the chosen language has a matching app
+// language (see i18n/translations.js), picking it here switches the
+// whole app's language too — not just this form field.
 export default function ProfilePage() {
-  const { t, language, setLanguage, languages } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const [form, setForm] = useState({
     name: "Suresh Kumar",
     phone: "+91 98765 43210",
     village: "Kolar",
     district: "Kolar",
     state: "Karnataka",
-    languageId: language,
   });
-  const [isCustom, setIsCustom] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  // Keep localized profile values in sync with current language unless user edited manually
-  useEffect(() => {
-    if (!isCustom) {
-      setForm((prev) => ({
-        ...prev,
-        name: t("name.sureshKumar"),
-        village: t("region.kolar"),
-        district: t("region.kolar"),
-        state: t("region.karnataka"),
-        languageId: language,
-      }));
-    }
-  }, [language, isCustom, t]);
-
   function handleChange(field, value) {
-    setIsCustom(true);
     setForm((f) => ({ ...f, [field]: value }));
   }
 
+  // The select reads straight from the app's live language rather than
+  // keeping a second copy in `form` — that's what kept this field showing
+  // one language while the UI was rendered in another.
   function handleLanguageChange(id) {
-    handleChange("languageId", id);
-    if (languages.some((l) => l.code === id)) setLanguage(id);
+    setLanguage(id);
   }
 
   function handleSave(e) {
@@ -51,7 +41,7 @@ export default function ProfilePage() {
     <div className="flex flex-col gap-4">
       <PageHeader title={t("profile.titleFarmer")} subtitle={t("profile.subtitleFarmer")} />
 
-      <form onSubmit={handleSave} className="max-w-lg rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+      <form onSubmit={handleSave} className="max-w-lg rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label={t("profile.fullName")} value={form.name} onChange={(v) => handleChange("name", v)} />
           <Field label={t("profile.phoneNumber")} value={form.phone} onChange={(v) => handleChange("phone", v)} />
@@ -61,7 +51,7 @@ export default function ProfilePage() {
           <div>
             <label className="mb-1.5 block text-sm font-medium text-stone-700">{t("profile.preferredLanguage")}</label>
             <select
-              value={form.languageId}
+              value={language}
               onChange={(e) => handleLanguageChange(e.target.value)}
               className="w-full rounded-xl border border-stone-200 px-3 py-2.5 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
             >
@@ -76,7 +66,7 @@ export default function ProfilePage() {
 
         <button
           type="submit"
-          className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-900 active:scale-98"
+          className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-900"
         >
           {saved ? <CheckCircle2 size={16} /> : null}
           {saved ? t("profile.saved") : t("profile.save")}

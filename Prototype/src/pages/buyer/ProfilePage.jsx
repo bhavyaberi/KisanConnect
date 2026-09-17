@@ -1,32 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import PageHeader from "../PageHeader";
 import { buyerTypes } from "../../data/kisanConnectData";
 import { useLanguage } from "../../i18n/LanguageContext";
 
 export default function ProfilePage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [form, setForm] = useState({
     name: "Meera Iyer",
     phone: "+91 90000 11223",
     buyerTypeId: "restaurant",
     city: "Bangalore",
   });
-  const [isCustom, setIsCustom] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  useEffect(() => {
-    if (!isCustom) {
-      setForm((prev) => ({
-        ...prev,
-        name: t("name.meeraIyer"),
-        city: t("region.bangalore"),
-      }));
-    }
-  }, [language, isCustom, t]);
-
   function handleChange(field, value) {
-    setIsCustom(true);
     setForm((f) => ({ ...f, [field]: value }));
   }
 
@@ -40,7 +28,7 @@ export default function ProfilePage() {
     <div className="flex flex-col gap-4">
       <PageHeader title={t("profile.titleBuyer")} subtitle={t("profile.subtitleBuyer")} />
 
-      <form onSubmit={handleSave} className="max-w-lg rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+      <form onSubmit={handleSave} className="max-w-lg rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label={t("profile.fullName")} value={form.name} onChange={(v) => handleChange("name", v)} />
           <Field label={t("profile.phoneNumber")} value={form.phone} onChange={(v) => handleChange("phone", v)} />
@@ -63,7 +51,7 @@ export default function ProfilePage() {
 
         <button
           type="submit"
-          className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-900 active:scale-98"
+          className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-900"
         >
           {saved ? <CheckCircle2 size={16} /> : null}
           {saved ? t("profile.saved") : t("profile.save")}

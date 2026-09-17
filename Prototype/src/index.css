@@ -1,1 +1,78 @@
 @import "tailwindcss";
+
+/* ---------------------------------------------------------------------
+   Phone-first base styles.
+
+   Everything here exists to fix a problem that only shows up on a real
+   handset: rubber-band overscroll revealing white behind the dark hero,
+   iOS zooming the page when you focus a small input, the browser chrome
+   eating the bottom nav, and blue tap flashes on every button.
+   --------------------------------------------------------------------- */
+
+@theme {
+  /* Clearance for the fixed mobile bottom nav, defined once so pages can
+     reserve space with `pb-bottomnav` instead of each hardcoding a magic
+     number. The nav measures ~62px; the env() term adds the iPhone home
+     indicator strip on devices that have one (and resolves to 0 elsewhere). */
+  --spacing-bottomnav: calc(4.5rem + env(safe-area-inset-bottom));
+}
+
+html {
+  /* Stops iOS Safari from scaling text up in landscape. */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  /* No page ever needs to scroll sideways — if something overflows we'd
+     rather clip it than hand the user a wobbling viewport. */
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  background-color: #fbfaf6;
+}
+
+/* Kill the grey/blue flash Android and iOS paint over tapped elements;
+   every interactive element in the app has its own :active styling. */
+button,
+a,
+select,
+input,
+label,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS zooms the whole viewport when you focus an input whose font-size is
+   under 16px. The design uses 14px inputs, so bump them back up on small
+   screens only — desktop keeps the intended type scale. */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Utility: real viewport height on mobile browsers. 100vh includes the
+   collapsing address bar, which leaves a gap; 100dvh tracks it live.
+   Fallback first, then the override — order matters, both selectors have
+   the same specificity so the last matching rule wins. */
+.min-h-dvh {
+  min-height: 100vh;
+}
+
+@supports (height: 100dvh) {
+  .min-h-dvh {
+    min-height: 100dvh;
+  }
+}
+
+/* Respect users who've asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

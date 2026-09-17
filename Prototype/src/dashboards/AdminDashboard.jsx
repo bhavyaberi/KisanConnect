@@ -16,24 +16,14 @@ export default function AdminDashboard() {
     crop: t(`crop.${d.cropId.toLowerCase()}`),
   }));
 
-  const localizedCropPriceForecast = cropPriceForecast.map((d) => ({
-    ...d,
-    day: t(d.day),
-  }));
-
-  const localizedPriceTrend = priceTrend.map((d) => ({
-    ...d,
-    day: t(d.day),
-  }));
-
   return (
     <>
       {/* Market Intelligence Overview — the 4 headline KPIs */}
       <div>
-        <h2 className="mb-3 text-xs sm:text-sm font-semibold uppercase tracking-wide text-stone-500">
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">
           {t("adminDash.overview")}
         </h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {adminStatCards.map((card) => (
             <StatCard key={card.id} label={t(card.labelKey)} value={card.value} delta={t(card.deltaKey)} />
           ))}
@@ -42,17 +32,17 @@ export default function AdminDashboard() {
 
       {/* Row 2 — Crop-wise Price Forecast + Supply vs Demand */}
       <div className="flex flex-col gap-4 lg:flex-row">
-        <div className="flex flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+        <div className="flex min-w-0 flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
           <h3 className="font-semibold text-stone-900">{t("adminDash.priceForecastTitle")}</h3>
-          <div className="mt-1 flex items-center gap-3 sm:gap-4 text-xs text-stone-500">
+          <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-stone-500">
             <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 bg-emerald-700" /> {t("crop.tomato")}</span>
             <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 bg-amber-500" /> {t("crop.onion")}</span>
             <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 bg-stone-400" /> {t("crop.potato")}</span>
           </div>
 
-          <div className="mt-4 h-48 sm:h-56 w-full">
+          <div className="mt-4 h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={localizedCropPriceForecast} margin={{ left: -20, right: 10 }}>
+              <LineChart data={cropPriceForecast} margin={{ left: -20 }}>
                 <CartesianGrid vertical={false} stroke="#f1f1ea" />
                 <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
@@ -65,13 +55,13 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+        <div className="flex min-w-0 flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
           <h3 className="font-semibold text-stone-900">{t("adminDash.supplyDemandTitle")}</h3>
           <p className="mt-1 text-xs text-stone-400">{t("adminDash.supplyDemandSubtitle")}</p>
 
-          <div className="mt-4 h-48 sm:h-56 w-full">
+          <div className="mt-4 h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={supplyDemand} margin={{ left: -20, right: 10 }}>
+              <BarChart data={supplyDemand} margin={{ left: -20 }}>
                 <CartesianGrid vertical={false} stroke="#f1f1ea" />
                 <XAxis dataKey="crop" tick={{ fontSize: 11, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: "#a8a29e" }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v / 1000}K`} />
@@ -81,7 +71,7 @@ export default function AdminDashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="mt-2 flex items-center gap-4 text-xs text-stone-500">
+          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-stone-500">
             <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-emerald-700" /> {t("adminDash.supplyLegend")}</span>
             <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-amber-500" /> {t("adminDash.demandLegend")}</span>
           </div>
@@ -90,15 +80,15 @@ export default function AdminDashboard() {
 
       {/* Row 3 — Surplus Alerts + Market Trends */}
       <div className="flex flex-col gap-4 lg:flex-row">
-        <div className="flex flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+        <div className="flex min-w-0 flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
           <h3 className="font-semibold text-stone-900">{t("adminDash.surplusAlertsTitle")}</h3>
           <ul className="mt-3 flex-1 divide-y divide-stone-100">
             {surplusAlerts.map((alert) => (
               <li key={alert.id} className="flex items-start gap-3 py-3 first:pt-0">
                 <AlertTriangle size={16} className="mt-0.5 flex-shrink-0 text-amber-500" />
-                <div className="flex-1">
+                <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-stone-800">
-                    {t(`crop.${alert.cropId.toLowerCase()}`)} &middot; {t(alert.regionKey ?? alert.region)}
+                    {t(`crop.${alert.cropId.toLowerCase()}`)} &middot; {alert.region}
                   </p>
                   <p className="text-xs text-stone-500">{t(`regionStatus.${alert.typeKey}`)}</p>
                 </div>
@@ -118,16 +108,16 @@ export default function AdminDashboard() {
           </ul>
         </div>
 
-        <div className="flex flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+        <div className="flex min-w-0 flex-1 flex-col rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
           <h3 className="font-semibold text-stone-900">{t("adminDash.marketTrendsTitle")}</h3>
-          <div className="mt-1 flex items-center gap-4 text-xs text-stone-500">
+          <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-stone-500">
             <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 bg-emerald-700" /> {t("adminDash.platformAvg")}</span>
             <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 border-t-2 border-dashed border-stone-400" /> {t("adminDash.mandiAvg")}</span>
           </div>
 
-          <div className="mt-4 h-48 sm:h-56 w-full">
+          <div className="mt-4 h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={localizedPriceTrend} margin={{ left: -20, right: 10 }}>
+              <LineChart data={priceTrend} margin={{ left: -20 }}>
                 <CartesianGrid vertical={false} stroke="#f1f1ea" />
                 <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#a8a29e" }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: "#a8a29e" }} axisLine={false} tickLine={false} />

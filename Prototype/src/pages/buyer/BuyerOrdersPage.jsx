@@ -10,6 +10,8 @@ const STATUS_COLOR = {
   delivered: "bg-emerald-100 text-emerald-700",
 };
 
+// `orders` comes from App's shared state — includes both the seeded demo
+// history and anything just bought on the Marketplace page.
 export default function BuyerOrdersPage({ orders }) {
   const { t } = useLanguage();
   const latest = orders[0];
@@ -20,29 +22,40 @@ export default function BuyerOrdersPage({ orders }) {
       <PageHeader title={t("buyerOrdersPage.title")} subtitle={t("buyerOrdersPage.subtitle")} />
 
       {latest && (
-        <div className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
-          <h3 className="font-semibold text-stone-900 text-sm sm:text-base">
+        <div className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
+          <h3 className="font-semibold text-stone-900">
             {t("buyerOrdersPage.fromLabel", {
               crop: t(`crop.${latest.cropId.toLowerCase()}`),
-              qty: latest.qty.replace("kg", t("unit.kg")),
-              farmer: t(latest.farmerKey ?? latest.farmer),
+              qty: latest.qty,
+              farmer: latest.farmer,
             })}
           </h3>
-          <div className="mt-5 flex items-center overflow-x-auto pb-1">
+          {/* The step labels are the tight part on a phone — they're given a
+              fixed narrow column and allowed to wrap onto two lines, so the
+              connector bars between steps keep their alignment either way. */}
+          <div className="mt-5 flex items-start">
             {TRACKING_KEYS.map((key, i) => (
-              <div key={key} className="flex flex-1 items-center last:flex-none min-w-[70px] sm:min-w-0">
-                <div className="flex flex-col items-center text-center">
+              <div key={key} className="flex flex-1 items-start last:flex-none">
+                <div className="flex w-14 flex-shrink-0 flex-col items-center sm:w-20">
                   {i <= currentStepIndex ? (
-                    <CheckCircle2 size={18} className="text-emerald-600 sm:w-5 sm:h-5" />
+                    <CheckCircle2 size={20} className="text-emerald-600" />
                   ) : (
-                    <Circle size={18} className="text-stone-300 sm:w-5 sm:h-5" />
+                    <Circle size={20} className="text-stone-300" />
                   )}
-                  <p className={`mt-1 text-[10px] sm:text-[11px] font-medium leading-tight ${i <= currentStepIndex ? "text-stone-700" : "text-stone-400"}`}>
+                  <p
+                    className={`mt-1 text-center text-[10px] leading-tight sm:text-[11px] ${
+                      i <= currentStepIndex ? "text-stone-700" : "text-stone-400"
+                    }`}
+                  >
                     {t(`status.${key}`)}
                   </p>
                 </div>
                 {i < TRACKING_KEYS.length - 1 && (
-                  <div className={`mx-1 h-0.5 flex-1 ${i < currentStepIndex ? "bg-emerald-600" : "bg-stone-200"}`} />
+                  <div
+                    className={`mt-2.5 h-0.5 flex-1 ${
+                      i < currentStepIndex ? "bg-emerald-600" : "bg-stone-200"
+                    }`}
+                  />
                 )}
               </div>
             ))}
@@ -50,18 +63,16 @@ export default function BuyerOrdersPage({ orders }) {
         </div>
       )}
 
-      <div className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+      <div className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
         <h3 className="mb-1 font-semibold text-stone-900">{t("buyerOrdersPage.orderHistory")}</h3>
         <div className="divide-y divide-stone-100">
           {orders.map((o) => (
-            <div key={o.id} className="flex items-center gap-3 sm:gap-4 py-3 first:pt-0">
-              <div className="flex-1 min-w-0">
+            <div key={o.id} className="flex items-center gap-3 py-3 first:pt-0 sm:gap-4">
+              <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-stone-800">
-                  {t(`crop.${o.cropId.toLowerCase()}`)} &middot; {o.qty.replace("kg", t("unit.kg"))}
+                  {t(`crop.${o.cropId.toLowerCase()}`)} &middot; {o.qty}
                 </p>
-                <p className="text-xs text-stone-500 truncate">
-                  {t(o.farmerKey ?? o.farmer)} &middot; {o.total}
-                </p>
+                <p className="truncate text-xs text-stone-500">{o.farmer} &middot; {o.total}</p>
               </div>
               <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold ${STATUS_COLOR[o.statusKey]}`}>
                 {t(`status.${o.statusKey}`)}

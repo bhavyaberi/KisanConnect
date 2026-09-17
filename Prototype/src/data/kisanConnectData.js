@@ -56,9 +56,9 @@ export const farmerListings = [
 ];
 
 export const farmerOrders = [
-  { id: 1, buyer: "Meera's Kitchen", buyerKey: "name.meerasKitchen", cropId: "Tomato", qtyLabel: "30 kg", statusKey: "inTransit" },
-  { id: 2, buyer: "Fresh Mart Bangalore", buyerKey: "name.freshMartBangalore", cropId: "Onion", qtyLabel: "50 kg", statusKey: "delivered" },
-  { id: 3, buyer: "Green Basket Retail", buyerKey: "name.greenBasketRetail", cropId: "Potato", qtyLabel: "25 kg", statusKey: "pendingPickup" },
+  { id: 1, buyer: "Meera's Kitchen", cropId: "Tomato", qtyLabel: "30 kg", statusKey: "inTransit" },
+  { id: 2, buyer: "Fresh Mart Bangalore", cropId: "Onion", qtyLabel: "50 kg", statusKey: "delivered" },
+  { id: 3, buyer: "Green Basket Retail", cropId: "Potato", qtyLabel: "25 kg", statusKey: "pendingPickup" },
 ];
 
 // Market Insights card: current vs. AI-predicted price for the farmer's
@@ -93,9 +93,9 @@ export const farmerSurplusAlert = {
 
 // ============================= BUYER =============================
 export const buyerListings = [
-  { id: 1, cropId: "Tomato", farmer: "Suresh Kumar", farmerKey: "name.sureshKumar", distance: "4.2 km", price: "\u20b913/kg" },
-  { id: 2, cropId: "Onion", farmer: "Ramesh Gowda", farmerKey: "name.rameshGowda", distance: "6.0 km", price: "\u20b99/kg" },
-  { id: 3, cropId: "Potato", farmer: "Lakshmi Devi", farmerKey: "name.lakshmiDevi", distance: "3.1 km", price: "\u20b911/kg" },
+  { id: 1, cropId: "Tomato", farmer: "Suresh Kumar", distance: "4.2 km", price: "\u20b913/kg" },
+  { id: 2, cropId: "Onion", farmer: "Ramesh Gowda", distance: "6.0 km", price: "\u20b99/kg" },
+  { id: 3, cropId: "Potato", farmer: "Lakshmi Devi", distance: "3.1 km", price: "\u20b911/kg" },
 ];
 
 // Market Supply Forecast — supply-side forecast (Section 7.2, read from
@@ -134,8 +134,8 @@ export const buyerPriceHistory = [
 // orders placed from the Marketplace get prepended at runtime (App.jsx
 // owns this as shared state).
 export const buyerOrderSeed = [
-  { id: 1, cropId: "Tomato", farmer: "Suresh Kumar", farmerKey: "name.sureshKumar", qty: "30 kg", total: "\u20b9390", statusKey: "inTransit" },
-  { id: 2, cropId: "Onion", farmer: "Ramesh Gowda", farmerKey: "name.rameshGowda", qty: "20 kg", total: "\u20b9180", statusKey: "delivered" },
+  { id: 1, cropId: "Tomato", farmer: "Suresh Kumar", qty: "30 kg", total: "\u20b9390", statusKey: "inTransit" },
+  { id: 2, cropId: "Onion", farmer: "Ramesh Gowda", qty: "20 kg", total: "\u20b9180", statusKey: "delivered" },
 ];
 
 // ============================= ADMIN / DoCA =============================
@@ -149,12 +149,12 @@ export const adminStatCards = [
 // Region status for the map-style overview card. `statusKey` drives both
 // pin color and the translated status label ("surplus"/"shortage"/"balanced").
 export const regionOverview = [
-  { region: "Kolar", regionKey: "region.kolar", statusKey: "surplus", cropId: "Tomato", top: "38%", left: "62%" },
-  { region: "Chikkaballapur", regionKey: "region.chikkaballapur", statusKey: "shortage", cropId: "Tomato", top: "22%", left: "50%" },
-  { region: "Bangalore Urban", regionKey: "region.bangaloreUrban", statusKey: "balanced", cropId: null, top: "55%", left: "58%" },
-  { region: "Tumkur", regionKey: "region.tumkur", statusKey: "balanced", cropId: "Onion", top: "30%", left: "30%" },
-  { region: "Mysuru", regionKey: "region.mysuru", statusKey: "shortage", cropId: "Potato", top: "72%", left: "28%" },
-  { region: "Mandya", regionKey: "region.mandya", statusKey: "balanced", cropId: "Onion", top: "68%", left: "44%" },
+  { region: "Kolar", statusKey: "surplus", cropId: "Tomato", top: "38%", left: "62%" },
+  { region: "Chikkaballapur", statusKey: "shortage", cropId: "Tomato", top: "22%", left: "50%" },
+  { region: "Bangalore Urban", statusKey: "balanced", cropId: null, top: "55%", left: "58%" },
+  { region: "Tumkur", statusKey: "balanced", cropId: "Onion", top: "30%", left: "30%" },
+  { region: "Mysuru", statusKey: "shortage", cropId: "Potato", top: "72%", left: "28%" },
+  { region: "Mandya", statusKey: "balanced", cropId: "Onion", top: "68%", left: "44%" },
 ];
 
 export const regionStatusLegend = [
@@ -187,10 +187,10 @@ export const cropPriceForecast = [
 ];
 
 export const surplusAlerts = [
-  { id: 1, cropId: "Tomato", region: "Kolar", regionKey: "region.kolar", typeKey: "surplus", severityKey: "high" },
-  { id: 2, cropId: "Potato", region: "Mysuru", regionKey: "region.mysuru", typeKey: "shortage", severityKey: "medium" },
-  { id: 3, cropId: "Tomato", region: "Chikkaballapur", regionKey: "region.chikkaballapur", typeKey: "shortage", severityKey: "medium" },
-  { id: 4, cropId: "Onion", region: "Tumkur", regionKey: "region.tumkur", typeKey: "surplus", severityKey: "low" },
+  { id: 1, cropId: "Tomato", region: "Kolar", typeKey: "surplus", severityKey: "high" },
+  { id: 2, cropId: "Potato", region: "Mysuru", typeKey: "shortage", severityKey: "medium" },
+  { id: 3, cropId: "Tomato", region: "Chikkaballapur", typeKey: "shortage", severityKey: "medium" },
+  { id: 4, cropId: "Onion", region: "Tumkur", typeKey: "surplus", severityKey: "low" },
 ];
 
 // Configurable alert thresholds (Section 3.3). Surplus/shortage triggers
@@ -201,14 +201,13 @@ export const alertThresholdDefaults = {
   channels: { sms: true, push: true, dashboard: true },
 };
 
-// Regional languages KisanConnect supports (Section 2.2 / 3.7). `id`
-// matches this app's own language codes (i18n/translations.js) where one
-// exists, so selecting a language here can flip the whole app's language
+// Languages KisanConnect supports (Section 2.2 / 3.7). Every `id` here
+// matches one of this app's own language codes (i18n/translations.js), so
+// selecting a language on the profile form flips the whole app's language
 // too — see farmer/ProfilePage.jsx.
 export const supportedLanguages = [
-  { id: "kn", key: "lang.kannada" },
-  { id: "hi", key: "lang.hindi" },
   { id: "en", key: "lang.english" },
+  { id: "hi", key: "lang.hindi" },
 ];
 
 export const buyerTypes = [
@@ -227,9 +226,9 @@ export const demandSupplyByCrop = [
 
 // Saved Sellers — farmers a buyer follows for quick reorder (Section 10.2).
 export const savedSellersSeed = [
-  { id: 1, name: "Suresh Kumar", nameKey: "name.sureshKumar", cropId: "Tomato", region: "Kolar", regionKey: "region.kolar", rating: "4.8" },
-  { id: 2, name: "Ramesh Gowda", nameKey: "name.rameshGowda", cropId: "Onion", region: "Tumkur", regionKey: "region.tumkur", rating: "4.6" },
-  { id: 3, name: "Lakshmi Devi", nameKey: "name.lakshmiDevi", cropId: "Potato", region: "Mysuru", regionKey: "region.mysuru", rating: "4.9" },
+  { id: 1, name: "Suresh Kumar", cropId: "Tomato", region: "Kolar", rating: "4.8" },
+  { id: 2, name: "Ramesh Gowda", cropId: "Onion", region: "Tumkur", rating: "4.6" },
+  { id: 3, name: "Lakshmi Devi", cropId: "Potato", region: "Mysuru", rating: "4.9" },
 ];
 
 // Static earnings history for the farmer Earnings page.

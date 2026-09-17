@@ -23,7 +23,7 @@ export default function SettingsPage() {
     <div className="flex flex-col gap-4">
       <PageHeader title={t("settings.title")} subtitle={t("settings.subtitle")} />
 
-      <form onSubmit={handleSave} className="max-w-lg rounded-2xl border border-stone-200 bg-white p-5">
+      <form onSubmit={handleSave} className="max-w-lg rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
         <h3 className="font-semibold text-stone-900">{t("settings.alertThresholds")}</h3>
         <p className="mt-1 text-xs text-stone-400">{t("settings.thresholdHint")}</p>
 

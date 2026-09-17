@@ -1,28 +1,30 @@
-// Translation dictionary for KisanConnect
-// Supports 3 official pilot languages: English (en), Hindi (hi), Kannada (kn)
-// Every user name, region, crop, status, navigation item, and chart axis is translated.
+// Translation dictionary. Each top-level key is a language code; each
+// value is a flat { translationKey: "text" } map. useLanguage()'s t()
+// looks a key up in the active language and falls back to English, then
+// to the key itself, so a missing translation never breaks the UI.
+//
+// The app ships exactly two languages — English and Hindi — and both are
+// complete: every page, table status, severity word, chart legend, and
+// form label goes through t() and has a real translation in both. To add
+// a third language later, add it to LANGUAGES, add a matching block to
+// `translations` below filled in the same way "hi" is, and add its
+// BCP-47 speech locale to SPEECH_LOCALES in i18n/LanguageContext.jsx.
 
 export const LANGUAGES = [
   {
-    code: "en",
-    label: "English",
-    nativeLabel: "English",
+    "code": "en",
+    "label": "English",
+    "nativeLabel": "English"
   },
   {
-    code: "hi",
-    label: "Hindi",
-    nativeLabel: "हिन्दी",
-  },
-  {
-    code: "kn",
-    label: "Kannada",
-    nativeLabel: "ಕನ್ನಡ",
-  },
+    "code": "hi",
+    "label": "Hindi",
+    "nativeLabel": "हिन्दी"
+  }
 ];
 
 export const translations = {
-  en: {
-    // Brand & General
+  "en": {
     "brand.name": "KisanConnect",
     "sidebar.learnMore": "Learn More",
     "sidebar.subtitle.farmer": "FARMER APP",
@@ -31,8 +33,6 @@ export const translations = {
     "sidebar.mission.farmer": "List your harvest, get AI price guidance, and sell straight to nearby buyers.",
     "sidebar.mission.buyer": "Discover fresh stock from nearby farmers and track supply before you buy.",
     "sidebar.mission.admin": "Real-time price, demand, and surplus visibility across every region KisanConnect serves.",
-
-    // Navigation
     "nav.dashboard": "Dashboard",
     "nav.listings": "My Listings",
     "nav.farmerOrders": "Orders",
@@ -45,18 +45,12 @@ export const translations = {
     "nav.alerts": "Surplus Alerts",
     "nav.reports": "Reports",
     "nav.settings": "Settings",
-    "nav.more": "More",
-    "nav.menu": "Menu",
-
-    // Topbar
     "topbar.welcome": "Welcome back, {name}",
     "topbar.subtitle.farmer": "Here's your market outlook for today.",
     "topbar.subtitle.buyer": "Here's what's coming into your market this week.",
     "topbar.subtitle.admin": "Here's the market-wide picture across all regions today.",
     "topbar.logout": "Log out",
     "topbar.language": "Language",
-
-    // Login
     "login.title": "Log in to KisanConnect",
     "login.welcomeBack": "Welcome back",
     "login.signInAs": "Sign in to the {role} view.",
@@ -72,33 +66,11 @@ export const translations = {
     "login.emailRequired": "Email is required.",
     "login.passwordRequired": "Password is required.",
     "login.hackathonTag": "SMART INDIA HACKATHON 2026",
-    "login.mismatch": "Incorrect email or password for this role.",
-
-    // Landing / Home
     "home.headline1": "Fair Prices.",
     "home.headline2": "Direct Connections.",
     "home.headline3": "No Middlemen.",
     "home.description": "KisanConnect connects farmers directly with buyers — backed by AI price and demand forecasting, and a live dashboard giving the Department of Consumer Affairs real-time market visibility.",
     "home.getStarted": "Get Started",
-    "home.subtitle": "Fair Prices. Direct Connections.",
-    "home.navHome": "Home",
-    "home.navHowItWorks": "How It Works",
-    "home.navForFarmers": "For Farmers",
-    "home.navForBuyers": "For Buyers",
-    "home.navForGovernment": "For Government",
-    "home.viewLiveDemo": "View Live Demo",
-    "home.eyebrow": "Smart India Hackathon 2026 · SIH26033",
-    "home.statValue": "5-6×",
-    "home.statLabel1": "Farm-gate to retail markup",
-    "home.statLabel2": "we're cutting out",
-    "home.forFarmersTitle": "For Farmers",
-    "home.forFarmersText": "List produce by voice, get AI price guidance, sell direct — no mandi trip required.",
-    "home.forBuyersTitle": "For Buyers",
-    "home.forBuyersText": "Discover fresh stock nearby, compare prices transparently, track delivery live.",
-    "home.forGovernmentTitle": "For Government",
-    "home.forGovernmentText": "Real-time price and surplus visibility across every region, not delayed mandi reports.",
-
-    // Listings (Farmer)
     "listings.title": "My Listings",
     "listings.subtitle": "List your harvest by voice or by hand, and manage what's live.",
     "listings.addCrop": "List My Crop",
@@ -119,8 +91,6 @@ export const translations = {
     "listings.markActive": "Mark Active",
     "listings.empty": "No listings yet — add your first crop above.",
     "listings.voiceLanguage": "Voice language",
-
-    // Crops & Statuses
     "crop.tomato": "Tomato",
     "crop.onion": "Onion",
     "crop.potato": "Potato",
@@ -137,8 +107,6 @@ export const translations = {
     "regionStatus.surplus": "Surplus risk",
     "regionStatus.shortage": "Shortage risk",
     "regionStatus.balanced": "Balanced",
-
-    // Farmer Dashboard
     "farmerDash.marketInsights": "Market Insights",
     "farmerDash.today": "today",
     "farmerDash.currentPrice": "Current price",
@@ -149,16 +117,12 @@ export const translations = {
     "farmerDash.severitySuffix": "severity",
     "farmerDash.trendNote": "+8% expected this week",
     "farmerDash.surplusMessage": "Tomato supply in Kolar is trending toward surplus over the next 5 days. Consider listing in Bangalore Urban, where demand is currently outpacing supply.",
-
-    // Buyer Dashboard
     "buyerDash.supplyForecastTitle": "Market Supply Forecast",
     "buyerDash.supplyForecastSubtitle": "Expected incoming stock near you · kg/day",
     "buyerDash.supplyByCropTitle": "Expected Supply by Crop",
     "buyerDash.supplyByCropSubtitle": "Next 7 days · kg, near you",
     "buyerDash.priceTrendsTitle": "Price Trends",
     "buyerDash.priceTrendsSubtitle": "Last 6 days · ₹/kg",
-
-    // Admin Dashboard
     "adminDash.overview": "Market Intelligence Overview",
     "adminDash.priceForecastTitle": "Crop-wise Price Forecast",
     "adminDash.supplyDemandTitle": "Supply vs Demand",
@@ -177,8 +141,6 @@ export const translations = {
     "adminStat.alerts.delta": "1 high severity",
     "adminStat.farmers.label": "Registered Farmers",
     "adminStat.farmers.delta": "Across 12 districts",
-
-    // Farmer Orders & Earnings
     "farmerOrdersPage.title": "Orders",
     "farmerOrdersPage.subtitle": "Orders buyers have placed against your listings.",
     "earnings.title": "Earnings",
@@ -190,8 +152,6 @@ export const translations = {
     "earnings.ordersFulfilled": "Orders Fulfilled",
     "earnings.ordersFulfilledDelta": "3 in transit right now",
     "earnings.monthlyEarnings": "Monthly Earnings",
-
-    // Profiles
     "profile.titleFarmer": "Profile",
     "profile.subtitleFarmer": "Your farmer profile, as buyers and the app see it.",
     "profile.titleBuyer": "Profile",
@@ -206,8 +166,6 @@ export const translations = {
     "profile.buyerType": "Buyer Type",
     "profile.save": "Save Profile",
     "profile.saved": "Saved",
-
-    // Marketplace & Buyer Orders
     "marketplace.title": "Marketplace",
     "marketplace.subtitle": "Search fresh stock from farmers near you.",
     "marketplace.searchPlaceholder": "Search by crop (e.g. tomato)",
@@ -224,8 +182,6 @@ export const translations = {
     "savedSellers.subtitle": "Farmers you follow for quick reordering.",
     "savedSellers.unsave": "Unsave",
     "savedSellers.noSellers": "No saved sellers left.",
-
-    // Admin Regions, Alerts, Reports, Settings
     "regions.title": "Regions & Heat Map",
     "regions.subtitle": "Supply-demand balance across every district KisanConnect serves.",
     "regions.hoverHint": "Hover a region for crop and status detail.",
@@ -262,64 +218,37 @@ export const translations = {
     "channel.sms": "SMS",
     "channel.push": "Push",
     "channel.dashboard": "Dashboard",
-
-    // Languages & Buyer Types
-    "lang.kannada": "Kannada",
     "lang.hindi": "Hindi",
     "lang.english": "English",
     "buyerType.individual": "Individual",
     "buyerType.retailer": "Retailer",
     "buyerType.restaurant": "Restaurant",
     "buyerType.bulk": "Bulk Distributor",
-
-    // Names (Farmers, Buyers, Admins, Businesses)
-    "name.sureshKumar": "Suresh Kumar",
-    "name.meeraIyer": "Meera Iyer",
-    "name.ananyaRao": "Ananya Rao",
-    "name.rameshGowda": "Ramesh Gowda",
-    "name.lakshmiDevi": "Lakshmi Devi",
-    "name.meerasKitchen": "Meera's Kitchen",
-    "name.freshMartBangalore": "Fresh Mart Bangalore",
-    "name.greenBasketRetail": "Green Basket Retail",
-
-    // Regions, Districts & Cities
-    "region.kolar": "Kolar",
-    "region.chikkaballapur": "Chikkaballapur",
-    "region.bangaloreUrban": "Bangalore Urban",
-    "region.tumkur": "Tumkur",
-    "region.mysuru": "Mysuru",
-    "region.mandya": "Mandya",
-    "region.bangalore": "Bangalore",
-    "region.karnataka": "Karnataka",
-
-    // Chart Time Labels: Days & Months
-    "day.day1": "Day 1",
-    "day.day2": "Day 2",
-    "day.day3": "Day 3",
-    "day.day4": "Day 4",
-    "day.day5": "Day 5",
-    "day.day6": "Day 6",
-    "day.day7": "Day 7",
-    "day.mon": "Mon",
-    "day.tue": "Tue",
-    "day.wed": "Wed",
-    "day.thu": "Thu",
-    "day.fri": "Fri",
-    "day.sat": "Sat",
-    "month.apr": "Apr",
-    "month.may": "May",
-    "month.jun": "Jun",
-    "month.jul": "Jul",
-    "month.aug": "Aug",
-    "month.sep": "Sep",
-
-    // Units
-    "unit.kg": "kg",
-    "unit.perKg": "₹/kg",
+    "login.mismatch": "Incorrect email or password for this role.",
+    "home.subtitle": "Fair Prices. Direct Connections.",
+    "home.navHome": "Home",
+    "home.navHowItWorks": "How It Works",
+    "home.navForFarmers": "For Farmers",
+    "home.navForBuyers": "For Buyers",
+    "home.navForGovernment": "For Government",
+    "home.viewLiveDemo": "View Live Demo",
+    "home.eyebrow": "Smart India Hackathon 2026 · SIH26033",
+    "home.statValue": "5-6×",
+    "home.statLabel1": "Farm-gate to retail markup",
+    "home.statLabel2": "we're cutting out",
+    "home.forFarmersTitle": "For Farmers",
+    "home.forFarmersText": "List produce by voice, get AI price guidance, sell direct — no mandi trip required.",
+    "home.forBuyersTitle": "For Buyers",
+    "home.forBuyersText": "Discover fresh stock nearby, compare prices transparently, track delivery live.",
+    "home.forGovernmentTitle": "For Government",
+    "home.forGovernmentText": "Real-time price and surplus visibility across every region, not delayed mandi reports.",
+    "nav.menu": "Menu",
+    "nav.close": "Close menu",
+    "nav.more": "More",
+    "regions.tapHint": "Tap a region pin for crop and status detail.",
+    "regions.tapToClose": "Tap anywhere to dismiss."
   },
-
-  hi: {
-    // Brand & General
+  "hi": {
     "brand.name": "किसान कनेक्ट",
     "sidebar.learnMore": "और जानें",
     "sidebar.subtitle.farmer": "किसान एप",
@@ -328,8 +257,6 @@ export const translations = {
     "sidebar.mission.farmer": "अपनी फसल सूचीबद्ध करें, AI की मदद से सही कीमत पाएं, और सीधे खरीदारों को बेचें।",
     "sidebar.mission.buyer": "आसपास के किसानों से ताजा स्टॉक खोजें और खरीदने से पहले आपूर्ति देखें।",
     "sidebar.mission.admin": "किसानकनेक्ट द्वारा सेवित हर क्षेत्र में मूल्य, मांग और अधिशेष की रीयल-टाइम झलक।",
-
-    // Navigation
     "nav.dashboard": "डैशबोर्ड",
     "nav.listings": "मेरी सूची",
     "nav.farmerOrders": "ऑर्डर",
@@ -342,18 +269,12 @@ export const translations = {
     "nav.alerts": "अधिशेष चेतावनी",
     "nav.reports": "रिपोर्ट",
     "nav.settings": "सेटिंग",
-    "nav.more": "अधिक",
-    "nav.menu": "मेनू",
-
-    // Topbar
     "topbar.welcome": "नमस्ते, {name}",
     "topbar.subtitle.farmer": "आज का आपका बाजार अनुमान यहां है।",
     "topbar.subtitle.buyer": "इस हफ्ते आपके बाजार में क्या आ रहा है, देखें।",
     "topbar.subtitle.admin": "आज सभी क्षेत्रों की बाजार तस्वीर यहां है।",
     "topbar.logout": "लॉग आउट",
     "topbar.language": "भाषा",
-
-    // Login
     "login.title": "किसानकनेक्ट में लॉगिन करें",
     "login.welcomeBack": "पुनः स्वागत है",
     "login.signInAs": "{role} व्यू में साइन इन करें।",
@@ -369,33 +290,11 @@ export const translations = {
     "login.emailRequired": "ईमेल आवश्यक है।",
     "login.passwordRequired": "पासवर्ड आवश्यक है।",
     "login.hackathonTag": "स्मार्ट इंडिया हैकेथॉन 2026",
-    "login.mismatch": "इस भूमिका के लिए ईमेल या पासवर्ड गलत है।",
-
-    // Landing / Home
     "home.headline1": "उचित कीमत।",
     "home.headline2": "सीधा संपर्क।",
     "home.headline3": "कोई बिचौलिया नहीं।",
     "home.description": "किसानकनेक्ट किसानों को सीधे खरीदारों से जोड़ता है — AI मूल्य और मांग अनुमान के सहारे से, और एक लाइव डैशबोर्ड जो उपभोक्ता मामले विभाग को रीयल-टाइम बाजार दृश्यता देता है।",
     "home.getStarted": "शुरू करें",
-    "home.subtitle": "उचित कीमत। सीधा संपर्क।",
-    "home.navHome": "होम",
-    "home.navHowItWorks": "यह कैसे काम करता है",
-    "home.navForFarmers": "किसानों के लिए",
-    "home.navForBuyers": "खरीदारों के लिए",
-    "home.navForGovernment": "सरकार के लिए",
-    "home.viewLiveDemo": "लाइव डेमो देखें",
-    "home.eyebrow": "स्मार्ट इंडिया हैकेथॉन 2026 · SIH26033",
-    "home.statValue": "5-6×",
-    "home.statLabel1": "फ़ार्म-गेट से खुदरा तक का मार्जिन",
-    "home.statLabel2": "जिसे हम हटा रहे हैं",
-    "home.forFarmersTitle": "किसानों के लिए",
-    "home.forFarmersText": "आवाज से फसल सूचीबद्ध करें, AI की मदद से सही कीमत पाएं, सीधे बेचें — मंडी जाने की जरूरत नहीं।",
-    "home.forBuyersTitle": "खरीदारों के लिए",
-    "home.forBuyersText": "आसपास ताजा स्टॉक खोजें, पारदर्शी रूप से कीमतों की तुलना करें, डिलीवरी लाइव ट्रैक करें।",
-    "home.forGovernmentTitle": "सरकार के लिए",
-    "home.forGovernmentText": "हर क्षेत्र में रीयल-टाइम मूल्य और अधिशेष दृश्यता, देरी से मंडी रिपोर्ट नहीं।",
-
-    // Listings (Farmer)
     "listings.title": "मेरी सूची",
     "listings.subtitle": "आवाज या हाथ से अपनी फसल सूचीबद्ध करें, और लाइव सूची प्रबंधित करें।",
     "listings.addCrop": "फसल जोड़ें",
@@ -405,7 +304,7 @@ export const translations = {
     "listings.heard": "सुना: “{transcript}”",
     "listings.parsedOk": "समझ गया — नीचे भर दिया गया है। जांच लें।",
     "listings.parsedFail": "फसल/मात्रा समझ नहीं आया — कृपया नीचे खुद भरें।",
-    "listings.notSupported": "इस ब्राउज़र में वॉयस इनपुट सपोर्टेड नहीं है। Chrome आजबाएं या नीचे खुद भरें।",
+    "listings.notSupported": "इस ब्राउज़र में वॉयस इनपुट काम नहीं करता। Chrome या Edge आज़माएं, या नीचे खुद भरें।",
     "listings.cropLabel": "फसल",
     "listings.qtyLabel": "मात्रा (किलो)",
     "listings.priceLabel": "कीमत (₹/किलो)",
@@ -416,8 +315,6 @@ export const translations = {
     "listings.markActive": "सक्रिय चिह्नित करें",
     "listings.empty": "अभी कोई सूची नहीं — अपनी पहली फसल जोड़ें।",
     "listings.voiceLanguage": "वॉयस भाषा",
-
-    // Crops & Statuses
     "crop.tomato": "टमाटर",
     "crop.onion": "प्याज",
     "crop.potato": "आलू",
@@ -434,8 +331,6 @@ export const translations = {
     "regionStatus.surplus": "अधिशेष जोखिम",
     "regionStatus.shortage": "कमी जोखिम",
     "regionStatus.balanced": "संतुलित",
-
-    // Farmer Dashboard
     "farmerDash.marketInsights": "बाजार जानकारी",
     "farmerDash.today": "आज",
     "farmerDash.currentPrice": "वर्तमान कीमत",
@@ -446,16 +341,12 @@ export const translations = {
     "farmerDash.severitySuffix": "गंभीरता",
     "farmerDash.trendNote": "इस हफ्ते +8% की उम्मीद",
     "farmerDash.surplusMessage": "अगले 5 दिनों में कोलार में टमाटर की आपूर्ति अधिशेष की ओर बढ़ रही है। बेंगलूरु अर्बन में सूचीबद्ध करने पर विचार करें, जहां मांग फ़िलहाल आपूर्ति से ज्यादा है।",
-
-    // Buyer Dashboard
     "buyerDash.supplyForecastTitle": "बाजार आपूर्ति अनुमान",
     "buyerDash.supplyForecastSubtitle": "आपके पास आने वाला स्टॉक · किलो/दिन",
     "buyerDash.supplyByCropTitle": "फसल अनुसार अपेक्षित आपूर्ति",
     "buyerDash.supplyByCropSubtitle": "अगले 7 दिन · किलो, आपके पास",
     "buyerDash.priceTrendsTitle": "मूल्य रुझान",
     "buyerDash.priceTrendsSubtitle": "पिछले 6 दिन · ₹/किलो",
-
-    // Admin Dashboard
     "adminDash.overview": "बाजार खुफ़िया अवलोकन",
     "adminDash.priceForecastTitle": "फसल-वार कीमत अनुमान",
     "adminDash.supplyDemandTitle": "आपूर्ति और मांग",
@@ -474,8 +365,6 @@ export const translations = {
     "adminStat.alerts.delta": "1 उच्च गंभीरता",
     "adminStat.farmers.label": "पंजीकृत किसान",
     "adminStat.farmers.delta": "12 जिलों में",
-
-    // Farmer Orders & Earnings
     "farmerOrdersPage.title": "ऑर्डर",
     "farmerOrdersPage.subtitle": "खरीदारों द्वारा आपकी सूची पर दिए गए ऑर्डर।",
     "earnings.title": "कमाई",
@@ -487,8 +376,6 @@ export const translations = {
     "earnings.ordersFulfilled": "पूरे हुए ऑर्डर",
     "earnings.ordersFulfilledDelta": "3 अभी रास्ते में",
     "earnings.monthlyEarnings": "मासिक कमाई",
-
-    // Profiles
     "profile.titleFarmer": "प्रोफ़ाइल",
     "profile.subtitleFarmer": "आपका किसान प्रोफ़ाइल, जैसा खरीदार और ऐप देखते हैं।",
     "profile.titleBuyer": "प्रोफ़ाइल",
@@ -503,8 +390,6 @@ export const translations = {
     "profile.buyerType": "खरीदार प्रकार",
     "profile.save": "प्रोफ़ाइल सहेजें",
     "profile.saved": "सहेजा गया",
-
-    // Marketplace & Buyer Orders
     "marketplace.title": "बाजार",
     "marketplace.subtitle": "आसपास के किसानों से ताजा स्टॉक खोजें।",
     "marketplace.searchPlaceholder": "फसल से खोजें (जैसे टमाटर)",
@@ -516,13 +401,11 @@ export const translations = {
     "buyerOrdersPage.subtitle": "अपना नवीनतम ऑर्डर ट्रैक करें और अपना ऑर्डर इतिहास देखें।",
     "buyerOrdersPage.orderHistory": "ऑर्डर इतिहास",
     "buyerOrdersPage.noOrders": "अभी कोई ऑर्डर नहीं — खरीदने के लिए बाजार पर जाएं।",
-    "buyerOrdersPage.fromLabel": "{farmer} से {crop} · {qty}",
+    "buyerOrdersPage.fromLabel": "{crop} · {qty}, {farmer} से",
     "savedSellers.title": "पसंदीदा विक्रेता",
     "savedSellers.subtitle": "वे किसान जिन्हें आप तेज़ दोबारा खरीद के लिए फॉलो करते हैं।",
     "savedSellers.unsave": "हटाएं",
     "savedSellers.noSellers": "कोई पसंदीदा विक्रेता नहीं बचा।",
-
-    // Admin Regions, Alerts, Reports, Settings
     "regions.title": "क्षेत्र और हीट मैप",
     "regions.subtitle": "किसानकनेक्ट द्वारा सेवित हर जिले में आपूर्ति-मांग संतुलन।",
     "regions.hoverHint": "फसल और स्थिति विवरण के लिए किसी क्षेत्र पर होवर करें।",
@@ -559,356 +442,34 @@ export const translations = {
     "channel.sms": "एसएमएस",
     "channel.push": "पुश",
     "channel.dashboard": "डैशबोर्ड",
-
-    // Languages & Buyer Types
-    "lang.kannada": "कन्नड",
     "lang.hindi": "हिंदी",
     "lang.english": "अंग्रेज़ी",
     "buyerType.individual": "व्यक्तिगत",
     "buyerType.retailer": "खुदरा विक्रेता",
     "buyerType.restaurant": "रेस्तरां",
     "buyerType.bulk": "थोक वितरक",
-
-    // Names
-    "name.sureshKumar": "सुरेश कुमार",
-    "name.meeraIyer": "मीरा अय्यर",
-    "name.ananyaRao": "अनन्या राव",
-    "name.rameshGowda": "रमेश गौड़ा",
-    "name.lakshmiDevi": "लक्ष्मी देवी",
-    "name.meerasKitchen": "मीराज़ किचन",
-    "name.freshMartBangalore": "फ्रेश मार्ट बैंगलोर",
-    "name.greenBasketRetail": "ग्रीन बास्केट रिटेल",
-
-    // Regions, Districts & Cities
-    "region.kolar": "कोलार",
-    "region.chikkaballapur": "चिक्काबल्लापुर",
-    "region.bangaloreUrban": "बैंगलोर शहरी",
-    "region.tumkur": "तुमकुर",
-    "region.mysuru": "मैसूरु",
-    "region.mandya": "मांड्या",
-    "region.bangalore": "बैंगलोर",
-    "region.karnataka": "कर्नाटक",
-
-    // Chart Time Labels: Days & Months
-    "day.day1": "दिन 1",
-    "day.day2": "दिन 2",
-    "day.day3": "दिन 3",
-    "day.day4": "दिन 4",
-    "day.day5": "दिन 5",
-    "day.day6": "दिन 6",
-    "day.day7": "दिन 7",
-    "day.mon": "सोम",
-    "day.tue": "मंगल",
-    "day.wed": "बुध",
-    "day.thu": "गुरु",
-    "day.fri": "शुक्र",
-    "day.sat": "शनि",
-    "month.apr": "अप्रैल",
-    "month.may": "मई",
-    "month.jun": "जून",
-    "month.jul": "जुलाई",
-    "month.aug": "अगस्त",
-    "month.sep": "सितंबर",
-
-    // Units
-    "unit.kg": "किलो",
-    "unit.perKg": "₹/किलो",
-  },
-
-  kn: {
-    // Brand & General
-    "brand.name": "ಕಿಸಾನ್ ಕನೆಕ್ಟ್",
-    "sidebar.learnMore": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
-    "sidebar.subtitle.farmer": "ರೈತ ಆ್ಯಪ್",
-    "sidebar.subtitle.buyer": "ಖರೀದಿದಾರರ ಪೋರ್ಟಲ್",
-    "sidebar.subtitle.admin": "ಗ್ರಾಹಕ ವ್ಯವಹಾರಗಳ ಇಲಾಖೆ",
-    "sidebar.mission.farmer": "ನಿಮ್ಮ ಬೆಳೆಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡಿ, AI ಬೆಲೆ ಮಾರ್ಗದರ್ಶನ ಪಡೆಯಿರಿ ಮತ್ತು ನೇರವಾಗಿ ಖರೀದಿದಾರರಿಗೆ ಮಾರಾಟ ಮಾಡಿ.",
-    "sidebar.mission.buyer": "ಹತ್ತಿರದ ರೈತರಿಂದ ತಾಜಾ ಉತ್ಪನ್ನಗಳನ್ನು ಹುಡುಕಿ ಮತ್ತು ಖರೀದಿಸುವ ಮುನ್ನ ಪೂರೈಕೆಯನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ.",
-    "sidebar.mission.admin": "ಕಿಸಾನ್ ಕನೆಕ್ಟ್ ಸೇವೆ ಒದಗಿಸುವ ಪ್ರತಿಯೊಂದು ಪ್ರದೇಶದಲ್ಲಿ ನೈಜ-ಸಮಯದ ಬೆಲೆ, ಬೇಡಿಕೆ ಮತ್ತು ಹೆಚ್ಚುವರಿ ದಾಸ್ತಾನು ಪರಿಶೀಲನೆ.",
-
-    // Navigation
-    "nav.dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
-    "nav.listings": "ನನ್ನ ಪಟ್ಟಿಗಳು",
-    "nav.farmerOrders": "ಆರ್ಡರ್‌ಗಳು",
-    "nav.earnings": "ಗಳಿಕೆಗಳು",
-    "nav.profile": "ಪ್ರೊಫೈಲ್",
-    "nav.marketplace": "ಮಾರುಕಟ್ಟೆ",
-    "nav.buyerOrders": "ನನ್ನ ಆರ್ಡರ್‌ಗಳು",
-    "nav.savedSellers": "ಉಳಿಸಿದ ಮಾರಾಟಗಾರರು",
-    "nav.regions": "ಪ್ರದೇಶಗಳು ಮತ್ತು ಹೀಟ್‌ಮ್ಯಾಪ್",
-    "nav.alerts": "ಹೆಚ್ಚುವರಿ ಬೆಳೆ ಎಚ್ಚರಿಕೆಗಳು",
-    "nav.reports": "ವರದಿಗಳು",
-    "nav.settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
-    "nav.more": "ಇನ್ನಷ್ಟು",
-    "nav.menu": "ಮೆನು",
-
-    // Topbar
-    "topbar.welcome": "ಸ್ವಾಗತ, {name}",
-    "topbar.subtitle.farmer": "ಇಂದಿನ ನಿಮ್ಮ ಮಾರುಕಟ್ಟೆ ಮುನ್ನೋಟ ಇಲ್ಲಿದೆ.",
-    "topbar.subtitle.buyer": "ಈ ವಾರ ನಿಮ್ಮ ಮಾರುಕಟ್ಟೆಗೆ ಬರುತ್ತಿರುವ ಸರಕುಗಳ ವಿವರ ಇಲ್ಲಿದೆ.",
-    "topbar.subtitle.admin": "ಇಂದು ಎಲ್ಲಾ ಪ್ರದೇಶಗಳ ಸಮಗ್ರ ಮಾರುಕಟ್ಟೆ ಚಿತ್ರಣ ಇಲ್ಲಿದೆ.",
-    "topbar.logout": "ಲಾಗ್ ಔಟ್",
-    "topbar.language": "ಭಾಷೆ",
-
-    // Login
-    "login.title": "ಕಿಸಾನ್ ಕನೆಕ್ಟ್‌ಗೆ ಲಾಗಿನ್ ಮಾಡಿ",
-    "login.welcomeBack": "ಮರಳಿ ಸುಸ್ವಾಗತ",
-    "login.signInAs": "{role} ವೀಕ್ಷಣೆಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ.",
-    "login.demoLoginFor": "{role} ಗಾಗಿ ಡೆಮೊ ಲಾಗಿನ್:",
-    "login.emailLabel": "ಇಮೇಲ್ ವಿಳಾಸ",
-    "login.passwordLabel": "ಪಾಸ್‌ವರ್ಡ್",
-    "login.submit": "ಸೈನ್ ಇನ್",
-    "login.signingIn": "ಸೈನ್ ಇನ್ ಆಗುತ್ತಿದೆ...",
-    "login.autofill": "ಡೆಮೊ ವಿವರಗಳನ್ನು ಸ್ವಯಂ ಭರ್ತಿ ಮಾಡಿ",
-    "login.roleFarmer": "ರೈತ",
-    "login.roleBuyer": "ಖರೀದಿದಾರ",
-    "login.roleAdmin": "ನಿರ್ವಾಹಕ / DoCA",
-    "login.emailRequired": "ಇಮೇಲ್ ಅಗತ್ಯವಿದೆ.",
-    "login.passwordRequired": "ಪಾಸ್‌ವರ್ಡ್ ಅಗತ್ಯವಿದೆ.",
-    "login.hackathonTag": "ಸ್ಮಾರ್ಟ್ ಇಂಡಿಯಾ ಹ್ಯಾಕಥಾನ್ 2026",
-    "login.mismatch": "ಈ ಪಾತ್ರಕ್ಕಾಗಿ ತಪ್ಪಾದ ಇಮೇಲ್ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್.",
-
-    // Landing / Home
-    "home.headline1": "ನ್ಯಾಯಯುತ ಬೆಲೆ.",
-    "home.headline2": "ನೇರ ಸಂಪರ್ಕ.",
-    "home.headline3": "ಮಧ್ಯವರ್ತಿಗಳಿಲ್ಲ.",
-    "home.description": "ಕಿಸಾನ್ ಕನೆಕ್ಟ್ ರೈತರನ್ನು ನೇರವಾಗಿ ಖರೀದಿದಾರರೊಂದಿಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ — AI ಬೆಲೆ ಮತ್ತು ಬೇಡಿಕೆ ಮುನ್ಸೂಚನೆ ಹಾಗೂ ಗ್ರಾಹಕ ವ್ಯವಹಾರಗಳ ಇಲಾಖೆಗೆ ನೈಜ-ಸಮಯದ ಮಾರುಕಟ್ಟೆ ಚಿತ್ರಣವನ್ನು ನೀಡುವ ಲೈವ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಬೆಂಬಲದೊಂದಿಗೆ.",
-    "home.getStarted": "ಪ್ರಾರಂಭಿಸಿ",
-    "home.subtitle": "ನ್ಯಾಯಯುತ ಬೆಲೆ. ನೇರ ಸಂಪರ್ಕ.",
-    "home.navHome": "ಮುಖಪುಟ",
-    "home.navHowItWorks": "ಇದು ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ",
-    "home.navForFarmers": "ರೈತರಿಗಾಗಿ",
-    "home.navForBuyers": "ಖರೀದಿದಾರರಿಗಾಗಿ",
-    "home.navForGovernment": "ಸರ್ಕಾರಕ್ಕಾಗಿ",
-    "home.viewLiveDemo": "ಲೈವ್ ಡೆಮೊ ವೀಕ್ಷಿಸಿ",
-    "home.eyebrow": "ಸ್ಮಾರ್ಟ್ ಇಂಡಿಯಾ ಹ್ಯಾಕಥಾನ್ 2026 · SIH26033",
+    "login.mismatch": "इस भूमिका के लिए ईमेल या पासवर्ड गलत है।",
+    "home.subtitle": "उचित कीमत। सीधा संपर्क।",
+    "home.navHome": "होम",
+    "home.navHowItWorks": "यह कैसे काम करता है",
+    "home.navForFarmers": "किसानों के लिए",
+    "home.navForBuyers": "खरीदारों के लिए",
+    "home.navForGovernment": "सरकार के लिए",
+    "home.viewLiveDemo": "लाइव डेमो देखें",
+    "home.eyebrow": "स्मार्ट इंडिया हैकेथॉन 2026 · SIH26033",
     "home.statValue": "5-6×",
-    "home.statLabel1": "ತೋಟದಿಂದ ಚಿಲ್ಲರೆ ವ್ಯಾಪಾರದವರೆಗಿನ ಕಮಿಷನ್",
-    "home.statLabel2": "ನಾವು ತೆಗೆದುಹಾಕುತ್ತಿದ್ದೇವೆ",
-    "home.forFarmersTitle": "ರೈತರಿಗಾಗಿ",
-    "home.forFarmersText": "ಧ್ವನಿಯ ಮೂಲಕ ಬೆಳೆಯನ್ನು ಪಟ್ಟಿ ಮಾಡಿ, AI ಬೆಲೆ ಮಾರ್ಗದರ್ಶನ ಪಡೆಯಿರಿ, ನೇರವಾಗಿ ಮಾರಿ — ಮಂಡಿಗೆ ಅಲೆಯುವ ಅಗತ್ಯವಿಲ್ಲ.",
-    "home.forBuyersTitle": "ಖರೀದಿದಾರರಿಗಾಗಿ",
-    "home.forBuyersText": "ಹತ್ತಿರದಲ್ಲೇ ತಾಜಾ ತರಕಾರಿ-ಧಾನ್ಯ ಹುಡುಕಿ, ಪಾರದರ್ಶಕವಾಗಿ ಬೆಲೆ ಹೋಲಿಸಿ, ನೇರ ವಿತರಣೆಯನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ.",
-    "home.forGovernmentTitle": "ಸರ್ಕಾರಕ್ಕಾಗಿ",
-    "home.forGovernmentText": "ಪ್ರತಿಯೊಂದು ಪ್ರದೇಶದಲ್ಲೂ ನೈಜ-ಸಮಯದ ಬೆಲೆ ಮತ್ತು ಹೆಚ್ಚುವರಿ ದಾಸ್ತಾನು ಮುನ್ನೋಟ, ತಡವಾದ ಮಂಡಿ ವರದಿಗಳಲ್ಲ.",
-
-    // Listings (Farmer)
-    "listings.title": "ನನ್ನ ಪಟ್ಟಿಗಳು",
-    "listings.subtitle": "ಧ್ವನಿ ಅಥವಾ ಕೈಯಾರೆ ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ಪಟ್ಟಿ ಮಾಡಿ, ಮತ್ತು ಸಕ್ರಿಯ ಪಟ್ಟಿಯನ್ನು ನಿರ್ವಹಿಸಿ.",
-    "listings.addCrop": "ಬೆಳೆ ಸೇರಿಸಿ",
-    "listings.cancel": "ರದ್ದುಮಾಡಿ",
-    "listings.tapToSpeak": "ಮೈಕ್ ಒತ್ತಿ ಮತ್ತು ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ಮಾತನಾಡಿ — ಉದಾ: “50 ಕೆಜಿ ಟೊಮೆಟೊ”",
-    "listings.listening": "ಆಲಿಸುತ್ತಿದೆ… ಈಗ ಮಾತನಾಡಿ",
-    "listings.heard": "ಕೇಳಿಸಿದ್ದು: “{transcript}”",
-    "listings.parsedOk": "ಅರ್ಥವಾಯಿತು — ಕೆಳಗೆ ಭರ್ತಿ ಮಾಡಲಾಗಿದೆ. ಪರಿಶೀಲಿಸಿ.",
-    "listings.parsedFail": "ಬೆಳೆ/ಪ್ರಮಾಣ ಗುರುತಿಸಲಾಗಲಿಲ್ಲ — ದಯವಿಟ್ಟು ಕೆಳಗೆ ಕೈಯಾರೆ ಭರ್ತಿ ಮಾಡಿ.",
-    "listings.notSupported": "ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಇನ್‌ಪುಟ್ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ. Chrome ಬಳಸಿ ಅಥವಾ ಕೆಳಗೆ ನಮೂದಿಸಿ.",
-    "listings.cropLabel": "ಬೆಳೆ",
-    "listings.qtyLabel": "ಪ್ರಮಾಣ (ಕೆಜಿ)",
-    "listings.priceLabel": "ಬೆಲೆ (₹/ಕೆಜಿ)",
-    "listings.pricePlaceholder": "AI ಸಲಹೆ 12–14",
-    "listings.photoAttach": "ಭಾವಚಿತ್ರ ಲಗತ್ತಿಸಿ (ಐಚ್ಛಿಕ) — GPS ಸ್ಥಳ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸೇರ್ಪಡೆ",
-    "listings.publish": "ಪಟ್ಟಿಯನ್ನು ಪ್ರಕಟಿಸಿ",
-    "listings.markSold": "ಮಾರಾಟವಾಯಿತು ಎಂದು ಗುರುತಿಸಿ",
-    "listings.markActive": "ಸಕ್ರಿಯ ಎಂದು ಗುರುತಿಸಿ",
-    "listings.empty": "ಇನ್ನೂ ಯಾವುದೇ ಪಟ್ಟಿಗಳಿಲ್ಲ — ಮೇಲೆ ನಿಮ್ಮ ಮೊದಲ ಬೆಳೆಯನ್ನು ಸೇರಿಸಿ.",
-    "listings.voiceLanguage": "ಧ್ವನಿ ಭಾಷೆ",
-
-    // Crops & Statuses
-    "crop.tomato": "ಟೊಮೆಟೊ",
-    "crop.onion": "ಈರುಳ್ಳಿ",
-    "crop.potato": "ಆಲೂಗಡ್ಡೆ",
-    "status.active": "ಸಕ್ರಿಯ",
-    "status.sold": "ಮಾರಾಟವಾಯಿತು",
-    "status.confirmed": "ದೃಢೀಕರಿಸಲಾಗಿದೆ",
-    "status.pickedUp": "ತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ",
-    "status.inTransit": "ಮಾರ್ಗ ಮಧ್ಯದಲ್ಲಿದೆ",
-    "status.delivered": "ವಿತರಿಸಲಾಗಿದೆ",
-    "status.pendingPickup": "ಪಿಕ್ ಅಪ್ ಬಾಕಿ ಇದೆ",
-    "severity.high": "ಹೆಚ್ಚು",
-    "severity.medium": "ಮಧ್ಯಮ",
-    "severity.low": "ಕಡಿಮೆ",
-    "regionStatus.surplus": "ಹೆಚ್ಚುವರಿ ದಾಸ್ತಾನು ಅಪಾಯ",
-    "regionStatus.shortage": "ಕೊರತೆಯ ಅಪಾಯ",
-    "regionStatus.balanced": "ಸಮತೋಲನ",
-
-    // Farmer Dashboard
-    "farmerDash.marketInsights": "ಮಾರುಕಟ್ಟೆ ಒಳನೋಟಗಳು",
-    "farmerDash.today": "ಇಂದು",
-    "farmerDash.currentPrice": "ಪ್ರಸ್ತುತ ಬೆಲೆ",
-    "farmerDash.aiPredictedPrice": "AI-ಅಂದಾಜು ಬೆಲೆ",
-    "farmerDash.sevenDayForecast": "7 ದಿನಗಳ ಬೆಲೆ ಮುನ್ಸೂಚನೆ",
-    "farmerDash.aiPredictedUnit": "AI-ಅಂದಾಜು",
-    "farmerDash.surplusAlertTitle": "ಹೆಚ್ಚುವರಿ ದಾಸ್ತಾನು ಎಚ್ಚರಿಕೆ",
-    "farmerDash.severitySuffix": "ತೀವ್ರತೆ",
-    "farmerDash.trendNote": "ಈ ವಾರ +8% ನಿರೀಕ್ಷೆ",
-    "farmerDash.surplusMessage": "ಮುಂದಿನ 5 ದಿನಗಳಲ್ಲಿ ಕೋಲಾರದಲ್ಲಿ ಟೊಮೆಟೊ ಪೂರೈಕೆ ಹೆಚ್ಚುವರಿ ಆಗುವ ಸಾಧ್ಯತೆಯಿದೆ. ಬೆಂಗಳೂರು ನಗರದಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಲು ಪರಿಗಣಿಸಿ, ಅಲ್ಲಿ ಪ್ರಸ್ತುತ ಬೇಡಿಕೆಯು ಪೂರೈಕೆಗಿಂತ ಹೆಚ್ಚಾಗಿದೆ.",
-
-    // Buyer Dashboard
-    "buyerDash.supplyForecastTitle": "ಮಾರುಕಟ್ಟೆ ಪೂರೈಕೆ ಮುನ್ಸೂಚನೆ",
-    "buyerDash.supplyForecastSubtitle": "ನಿಮ್ಮ ಬಳಿ ನಿರೀಕ್ಷಿತ ಒಳಬರುವ ದಾಸ್ತಾನು · ಕೆಜಿ/ದಿನ",
-    "buyerDash.supplyByCropTitle": "ಬೆಳೆವಾರು ನಿರೀಕ್ಷಿತ ಪೂರೈಕೆ",
-    "buyerDash.supplyByCropSubtitle": "ಮುಂದಿನ 7 ದಿನಗಳು · ಕೆಜಿ, ನಿಮ್ಮ ಹತ್ತಿರ",
-    "buyerDash.priceTrendsTitle": "ಬೆಲೆ ಪ್ರವೃತ್ತಿಗಳು",
-    "buyerDash.priceTrendsSubtitle": "ಕಳೆದ 6 ದಿನಗಳು · ₹/ಕೆಜಿ",
-
-    // Admin Dashboard
-    "adminDash.overview": "ಮಾರುಕಟ್ಟೆ ಮಾಹಿತಿ ಅವಲೋಕನ",
-    "adminDash.priceForecastTitle": "ಬೆಳೆವಾರು ಬೆಲೆ ಮುನ್ಸೂಚನೆ",
-    "adminDash.supplyDemandTitle": "ಪೂರೈಕೆ ಮತ್ತು ಬೇಡಿಕೆ",
-    "adminDash.supplyDemandSubtitle": "ಪ್ಲಾಟ್‌ಫಾರ್ಮ್‌ನಾದ್ಯಂತ, ಕೆಜಿ",
-    "adminDash.supplyLegend": "ಪೂರೈಕೆ",
-    "adminDash.demandLegend": "ಬೇಡಿಕೆ",
-    "adminDash.surplusAlertsTitle": "ಹೆಚ್ಚುವರಿ ದಾಸ್ತಾನು ಎಚ್ಚರಿಕೆಗಳು",
-    "adminDash.marketTrendsTitle": "ಮಾರುಕಟ್ಟೆ ಪ್ರವೃತ್ತಿಗಳು",
-    "adminDash.platformAvg": "ಪ್ಲಾಟ್‌ಫಾರ್ಮ್ ಸರಾಸರಿ",
-    "adminDash.mandiAvg": "ಮಂಡಿ ಸರಾಸರಿ",
-    "adminStat.listings.label": "ಸಕ್ರಿಯ ಪಟ್ಟಿಗಳು (ಎಲ್ಲಾ ಪ್ರದೇಶಗಳು)",
-    "adminStat.listings.delta": "ಇಂದು +64",
-    "adminStat.volume.label": "ಇಂದಿನ ವಹಿವಾಟು ಮೊತ್ತ",
-    "adminStat.volume.delta": "ನಿನ್ನೆಗಿಂತ +11.6%",
-    "adminStat.alerts.label": "ಸಕ್ರಿಯ ಹೆಚ್ಚುವರಿ ಎಚ್ಚರಿಕೆಗಳು",
-    "adminStat.alerts.delta": "1 ತೀವ್ರ ಮಟ್ಟದ ಎಚ್ಚರಿಕೆ",
-    "adminStat.farmers.label": "ನೋಂದಾಯಿತ ರೈತರು",
-    "adminStat.farmers.delta": "12 ಜಿಲ್ಲೆಗಳಾದ್ಯಂತ",
-
-    // Farmer Orders & Earnings
-    "farmerOrdersPage.title": "ಆರ್ಡರ್‌ಗಳು",
-    "farmerOrdersPage.subtitle": "ನಿಮ್ಮ ಪಟ್ಟಿಗಳಿಗೆ ಖರೀದಿದಾರರು ನೀಡಿದ ಆರ್ಡರ್‌ಗಳು.",
-    "earnings.title": "ಗಳಿಕೆಗಳು",
-    "earnings.subtitle": "ಕಿಸಾನ್ ಕನೆಕ್ಟ್ ಮೂಲಕ ಖರೀದಿದಾರರಿಂದ ನೇರ ಆದಾಯ.",
-    "earnings.thisMonth": "ಈ ತಿಂಗಳು",
-    "earnings.thisMonthDelta": "ಸ್ಥಳೀಯ ಮಂಡಿ ದರಕ್ಕಿಂತ +22%",
-    "earnings.last6Months": "ಕಳೆದ 6 ತಿಂಗಳು",
-    "earnings.acrossMonths": "{n} ತಿಂಗಳುಗಳಲ್ಲಿ",
-    "earnings.ordersFulfilled": "ಪೂರ್ಣಗೊಂಡ ಆರ್ಡರ್‌ಗಳು",
-    "earnings.ordersFulfilledDelta": "3 ಪ್ರಸ್ತುತ ಮಾರ್ಗ ಮಧ್ಯದಲ್ಲಿವೆ",
-    "earnings.monthlyEarnings": "ಮಾಸಿಕ ಗಳಿಕೆ",
-
-    // Profiles
-    "profile.titleFarmer": "ಪ್ರೊಫೈಲ್",
-    "profile.subtitleFarmer": "ನಿಮ್ಮ ರೈತ ಪ್ರೊಫೈಲ್, ಖರೀದಿದಾರರು ಮತ್ತು ಆ್ಯಪ್ ನೋಡುವಂತೆ.",
-    "profile.titleBuyer": "ಪ್ರೊಫೈಲ್",
-    "profile.subtitleBuyer": "ನಿಮ್ಮ ಖರೀದಿದಾರ ಪ್ರೊಫೈಲ್, ರೈತರು ನೋಡುವಂತೆ.",
-    "profile.fullName": "ಪೂರ್ಣ ಹೆಸರು",
-    "profile.phoneNumber": "ದೂರವಾಣಿ ಸಂಖ್ಯೆ",
-    "profile.village": "ಗ್ರಾಮ",
-    "profile.district": "ಜಿಲ್ಲೆ",
-    "profile.state": "ರಾಜ್ಯ",
-    "profile.preferredLanguage": "ಆದ್ಯತೆಯ ಭಾಷೆ",
-    "profile.city": "ನಗರ",
-    "profile.buyerType": "ಖರೀದಿದಾರರ ವಿಧ",
-    "profile.save": "ಪ್ರೊಫೈಲ್ ಉಳಿಸಿ",
-    "profile.saved": "ಉಳಿಸಲಾಗಿದೆ",
-
-    // Marketplace & Buyer Orders
-    "marketplace.title": "ಮಾರುಕಟ್ಟೆ",
-    "marketplace.subtitle": "ನಿಮ್ಮ ಹತ್ತಿರದ ರೈತರಿಂದ ತಾಜಾ ಉತ್ಪನ್ನಗಳನ್ನು ಹುಡುಕಿ.",
-    "marketplace.searchPlaceholder": "ಬೆಳೆಯ ಮೂಲಕ ಹುಡುಕಿ (ಉದಾ. ಟೊಮೆಟೊ)",
-    "marketplace.away": "{distance} ದೂರದಲ್ಲಿದೆ",
-    "marketplace.buy10kg": "10 ಕೆಜಿ ಖರೀದಿಸಿ",
-    "marketplace.orderPlaced": "ಆರ್ಡರ್ ನೀಡಲಾಗಿದೆ",
-    "marketplace.noMatch": "“{query}” ಗೆ ಯಾವುದೇ ಪಟ್ಟಿ ಹೊಂದಿಕೆಯಾಗಲಿಲ್ಲ.",
-    "buyerOrdersPage.title": "ನನ್ನ ಆರ್ಡರ್‌ಗಳು",
-    "buyerOrdersPage.subtitle": "ನಿಮ್ಮ ಇತ್ತೀಚಿನ ಆರ್ಡರ್ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ ಮತ್ತು ಇತಿಹಾಸ ಪರಿಶೀಲಿಸಿ.",
-    "buyerOrdersPage.orderHistory": "ಆರ್ಡರ್ ಇತಿಹಾಸ",
-    "buyerOrdersPage.noOrders": "ಇನ್ನೂ ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ — ಖರೀದಿಸಲು ಮಾರುಕಟ್ಟೆಗೆ ಭೇಟಿ ನೀಡಿ.",
-    "buyerOrdersPage.fromLabel": "{farmer} ರವರಿಂದ {crop} · {qty}",
-    "savedSellers.title": "ಉಳಿಸಿದ ಮಾರಾಟಗಾರರು",
-    "savedSellers.subtitle": "ತ್ವರಿತ ಮರು-ಆರ್ಡರ್ ಮಾಡಲು ನೀವು ಅನುಸರಿಸುವ ರೈತರು.",
-    "savedSellers.unsave": "ತೆಗೆದುಹಾಕಿ",
-    "savedSellers.noSellers": "ಯಾವುದೇ ಉಳಿಸಿದ ಮಾರಾಟಗಾರರಿಲ್ಲ.",
-
-    // Admin Regions, Alerts, Reports, Settings
-    "regions.title": "ಪ್ರದೇಶಗಳು ಮತ್ತು ಹೀಟ್‌ಮ್ಯಾಪ್",
-    "regions.subtitle": "ಕಿಸಾನ್ ಕನೆಕ್ಟ್ ಸೇವೆ ಒದಗಿಸುವ ಎಲ್ಲಾ ಜಿಲ್ಲೆಗಳ ಪೂರೈಕೆ-ಬೇಡಿಕೆ ಸಮತೋಲನ.",
-    "regions.hoverHint": "ಬೆಳೆ ಮತ್ತು ಸ್ಥಿತಿಯ ವಿವರಗಳಿಗಾಗಿ ಪ್ರದೇಶದ ಮೇಲೆ ಸ್ಪರ್ಶಿಸಿ/ಹೋವರ್ ಮಾಡಿ.",
-    "regions.allRegions": "ಎಲ್ಲಾ ಪ್ರದೇಶಗಳು",
-    "alerts.title": "ಹೆಚ್ಚುವರಿ ಬೆಳೆ ಎಚ್ಚರಿಕೆಗಳು",
-    "alerts.subtitleCount": "ಎಲ್ಲಾ ಪ್ರದೇಶಗಳಲ್ಲಿ {n} ಸಕ್ರಿಯ ಎಚ್ಚರಿಕೆಗಳು.",
-    "alerts.filterAll": "ಎಲ್ಲಾ",
-    "alerts.acknowledge": "ಸ್ವೀಕರಿಸಿ",
-    "alerts.acknowledged": "ಸ್ವೀಕರಿಸಲಾಗಿದೆ",
-    "alerts.noAlerts": "ಈ ತೀವ್ರತೆಯ ಮಟ್ಟದಲ್ಲಿ ಯಾವುದೇ ಎಚ್ಚರಿಕೆಗಳಿಲ್ಲ.",
-    "reports.title": "ವರದಿಗಳು",
-    "reports.subtitle": "ನೀತಿ ಪರಿಶೀಲನೆ ಮತ್ತು ಪ್ರಕಟಣೆಗಾಗಿ ರಫ್ತು ಮಾಡಬಹುದಾದ ವರದಿಗಳು.",
-    "reports.generate": "ರಚಿಸಿ",
-    "reports.generating": "ರಚಿಸಲಾಗುತ್ತಿದೆ...",
-    "reports.ready": "ಸಿದ್ಧವಾಗಿದೆ",
-    "reports.weeklyPrice.name": "ವಾರದ ಬೆಲೆ ವರದಿ",
-    "reports.weeklyPrice.desc": "ಎಲ್ಲಾ ಪ್ರದೇಶಗಳಲ್ಲಿ ಪ್ಲಾಟ್‌ಫಾರ್ಮ್ ಮತ್ತು ಮಂಡಿ ಬೆಲೆ ಹೋಲಿಕೆ.",
-    "reports.regionalSupplyDemand.name": "ಪ್ರಾದೇಶಿಕ ಪೂರೈಕೆ-ಬೇಡಿಕೆ ವರದಿ",
-    "reports.regionalSupplyDemand.desc": "ಜಿಲ್ಲಾವಾರು ಬೆಳೆ ಆಧಾರಿತ ಪೂರೈಕೆ ಮತ್ತು ಬೇಡಿಕೆ ಸಮತೋಲನ.",
-    "reports.alertLog.name": "ಹೆಚ್ಚುವರಿ/ಕೊರತೆ ಎಚ್ಚರಿಕೆಗಳ ಲಾಗ್",
-    "reports.alertLog.desc": "ಈ ತಿಂಗಳು ನೀಡಲಾದ ಎಲ್ಲಾ ಎಚ್ಚರಿಕೆಗಳು, ತೀವ್ರತೆ ಮತ್ತು ಪರಿಹಾರ ಸ್ಥಿತಿ.",
-    "reports.earningsImpact.name": "ರೈತರ ಗಳಿಕೆಯ ಪರಿಣಾಮ ವರದಿ",
-    "reports.earningsImpact.desc": "ಸ್ಥಳೀಯ ಮಂಡಿ ದರಕ್ಕೆ ಹೋಲಿಸಿದರೆ ಕಿಸಾನ್ ಕನೆಕ್ಟ್ ಮೂಲಕ ರೈತರ ಸರಾಸರಿ ಗಳಿಕೆ.",
-    "settings.title": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
-    "settings.subtitle": "ಎಚ್ಚರಿಕೆಗಳು ಯಾವಾಗ ಪ್ರಚೋದನೆಗೊಳ್ಳಬೇಕು ಮತ್ತು ಹೇಗೆ ಕಳುಹಿಸಬೇಕೆಂದು ಕಾನ್ಫಿಗರ್ ಮಾಡಿ.",
-    "settings.alertThresholds": "ಎಚ್ಚರಿಕೆಯ ಮಿತಿಗಳು",
-    "settings.thresholdHint": "ಪೂರೈಕೆಯು ಬೇಡಿಕೆಗಿಂತ ಈ ಶೇಕಡಾವಾರುಗಿಂತ ಹೆಚ್ಚು ವ್ಯತ್ಯಾಸವಾದಾಗ ಎಚ್ಚರಿಕೆ ನೀಡಿ.",
-    "settings.surplusThreshold": "ಹೆಚ್ಚುವರಿ ಮಿತಿ",
-    "settings.shortageThreshold": "ಕೊರತೆಯ ಮಿತಿ",
-    "settings.alertChannels": "ಎಚ್ಚರಿಕೆ ಚಾನೆಲ್‌ಗಳು",
-    "settings.channelHint": "ರೈತರಿಗೆ SMS, ಖರೀದಿದಾರರಿಗೆ ಪುಶ್ ನೋಟಿಫಿಕೇಶನ್, DoCA ಸಿಬ್ಬಂದಿಗೆ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್.",
-    "settings.save": "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸಿ",
-    "settings.saved": "ಉಳಿಸಲಾಗಿದೆ",
-    "channel.sms": "SMS",
-    "channel.push": "ಪುಶ್ ಅಧಿಸೂಚನೆ",
-    "channel.dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
-
-    // Languages & Buyer Types
-    "lang.kannada": "ಕನ್ನಡ",
-    "lang.hindi": "हिंदी",
-    "lang.english": "English",
-    "buyerType.individual": "ವೈಯಕ್ತಿಕ",
-    "buyerType.retailer": "ಚಿಲ್ಲರೆ ವ್ಯಾಪಾರಿ",
-    "buyerType.restaurant": "ರೆಸ್ಟೋರೆಂಟ್",
-    "buyerType.bulk": "ಸಗಟು ವಿತರಕ",
-
-    // Names
-    "name.sureshKumar": "ಸುರೇಶ್ ಕುಮಾರ್",
-    "name.meeraIyer": "ಮೀರಾ ಅಯ್ಯರ್",
-    "name.ananyaRao": "ಅನನ್ಯಾ ರಾವ್",
-    "name.rameshGowda": "ರಮೇಶ್ ಗೌಡ",
-    "name.lakshmiDevi": "ಲಕ್ಷ್ಮಿ ದೇವಿ",
-    "name.meerasKitchen": "ಮೀರಾಸ್ ಕಿಚನ್",
-    "name.freshMartBangalore": "ಫ್ರೆಶ್ ಮಾರ್ಟ್ ಬೆಂಗಳೂರು",
-    "name.greenBasketRetail": "ಗ್ರೀನ್ ಬಾಸ್ಕೆಟ್ ರಿಟೇಲ್",
-
-    // Regions, Districts & Cities
-    "region.kolar": "ಕೋಲಾರ",
-    "region.chikkaballapur": "ಚಿಕ್ಕಬಳ್ಳಾಪುರ",
-    "region.bangaloreUrban": "ಬೆಂಗಳೂರು ನಗರ",
-    "region.tumkur": "ತುಮಕೂರು",
-    "region.mysuru": "ಮೈಸೂರು",
-    "region.mandya": "ಮಂಡ್ಯ",
-    "region.bangalore": "ಬೆಂಗಳೂರು",
-    "region.karnataka": "ಕರ್ನಾಟಕ",
-
-    // Chart Time Labels: Days & Months
-    "day.day1": "ದಿನ 1",
-    "day.day2": "ದಿನ 2",
-    "day.day3": "ದಿನ 3",
-    "day.day4": "ದಿನ 4",
-    "day.day5": "ದಿನ 5",
-    "day.day6": "ದಿನ 6",
-    "day.day7": "ದಿನ 7",
-    "day.mon": "ಸೋಮ",
-    "day.tue": "ಮಂಗಳ",
-    "day.wed": "ಬುಧ",
-    "day.thu": "ಗುರು",
-    "day.fri": "ಶುಕ್ರ",
-    "day.sat": "ಶನಿ",
-    "month.apr": "ಏಪ್ರಿಲ್",
-    "month.may": "ಮೇ",
-    "month.jun": "ಜೂನ್",
-    "month.jul": "ಜುಲೈ",
-    "month.aug": "ಆಗಸ್ಟ್",
-    "month.sep": "ಸೆಪ್ಟೆಂಬರ್",
-
-    // Units
-    "unit.kg": "ಕೆಜಿ",
-    "unit.perKg": "₹/ಕೆಜಿ",
-  },
+    "home.statLabel1": "फ़ार्म-गेट से खुदरा तक का मार्जिन",
+    "home.statLabel2": "जिसे हम हटा रहे हैं",
+    "home.forFarmersTitle": "किसानों के लिए",
+    "home.forFarmersText": "आवाज से फसल सूचीबद्ध करें, AI की मदद से सही कीमत पाएं, सीधे बेचें — मंडी जाने की जरूरत नहीं।",
+    "home.forBuyersTitle": "खरीदारों के लिए",
+    "home.forBuyersText": "आसपास ताजा स्टॉक खोजें, पारदर्शी रूप से कीमतों की तुलना करें, डिलीवरी लाइव ट्रैक करें।",
+    "home.forGovernmentTitle": "सरकार के लिए",
+    "home.forGovernmentText": "हर क्षेत्र में रीयल-टाइम मूल्य और अधिशेष दृश्यता, देरी से मंडी रिपोर्ट नहीं।",
+    "nav.menu": "मेन्यू",
+    "nav.close": "मेन्यू बंद करें",
+    "nav.more": "और",
+    "regions.tapHint": "फसल और स्थिति देखने के लिए किसी क्षेत्र पिन पर टैप करें।",
+    "regions.tapToClose": "बंद करने के लिए कहीं भी टैप करें।"
+  }
 };

@@ -4,6 +4,8 @@ import PageHeader from "../PageHeader";
 import { buyerListings } from "../../data/kisanConnectData";
 import { useLanguage } from "../../i18n/LanguageContext";
 
+// `onPlaceOrder` comes from App (shared state), so a purchase made here
+// actually shows up on the Orders page — not just a local toast.
 export default function MarketplacePage({ onPlaceOrder }) {
   const { t } = useLanguage();
   const [query, setQuery] = useState("");
@@ -11,8 +13,7 @@ export default function MarketplacePage({ onPlaceOrder }) {
 
   const filtered = buyerListings.filter((l) =>
     t(`crop.${l.cropId.toLowerCase()}`).toLowerCase().includes(query.toLowerCase()) ||
-    l.cropId.toLowerCase().includes(query.toLowerCase()) ||
-    t(l.farmerKey ?? l.farmer).toLowerCase().includes(query.toLowerCase())
+    l.cropId.toLowerCase().includes(query.toLowerCase())
   );
 
   function handleBuy(listing) {
@@ -21,7 +22,6 @@ export default function MarketplacePage({ onPlaceOrder }) {
       id: Date.now(),
       cropId: listing.cropId,
       farmer: listing.farmer,
-      farmerKey: listing.farmerKey,
       qty: "10 kg",
       total: `\u20b9${unitPrice * 10}`,
       statusKey: "confirmed",
@@ -40,18 +40,18 @@ export default function MarketplacePage({ onPlaceOrder }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("marketplace.searchPlaceholder")}
-          className="w-full rounded-xl border border-stone-200 bg-white py-2.5 pl-9 pr-3 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 shadow-sm"
+          className="w-full rounded-xl border border-stone-200 bg-white py-2.5 pl-9 pr-3 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
         />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {filtered.map((l) => (
-          <div key={l.id} className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 shadow-sm">
+          <div key={l.id} className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <p className="font-semibold text-stone-900">{t(`crop.${l.cropId.toLowerCase()}`)}</p>
-              <p className="text-sm font-bold text-emerald-700">{l.price.replace("/kg", t("unit.perKg"))}</p>
+              <p className="text-sm font-bold text-emerald-700">{l.price}</p>
             </div>
-            <p className="mt-1 text-sm text-stone-600 font-medium">{t(l.farmerKey ?? l.farmer)}</p>
+            <p className="mt-1 text-sm text-stone-500">{l.farmer}</p>
             <p className="mt-1 flex items-center gap-1 text-xs text-stone-400">
               <MapPin size={12} /> {t("marketplace.away", { distance: l.distance })}
             </p>
@@ -59,7 +59,7 @@ export default function MarketplacePage({ onPlaceOrder }) {
             <button
               onClick={() => handleBuy(l)}
               disabled={justBought === l.id}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-800 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-900 disabled:bg-emerald-600 active:scale-98"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-800 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-900 disabled:bg-emerald-600"
             >
               {justBought === l.id ? (
                 <>

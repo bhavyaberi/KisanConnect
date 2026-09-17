@@ -1,123 +1,65 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { LANGUAGES, translations } from "./translations";
 
-// BCP-47 locale for each of the 3 supported languages
+// BCP-47 locale each language should use for the Web Speech API's
+// SpeechRecognition (see hooks/useSpeechRecognition.js). "-IN" everywhere
+// since KisanConnect is India-only for this pilot (Section 14 of the guide).
 const SPEECH_LOCALES = {
   en: "en-IN",
   hi: "hi-IN",
-  kn: "kn-IN",
 };
 
-// Common entity aliases so any hardcoded name, region, day, or month
-// automatically resolves to its localized translation in Kannada, Hindi, and English.
-const ENTITY_ALIASES = {
-  // Names
-  "suresh kumar": "name.sureshKumar",
-  "suresh": "name.sureshKumar",
-  "सुरेश कुमार": "name.sureshKumar",
-  "ಸುರೇಶ್ ಕುಮಾರ್": "name.sureshKumar",
-  "meera iyer": "name.meeraIyer",
-  "meera": "name.meeraIyer",
-  "मीरा अय्यर": "name.meeraIyer",
-  "ಮೀರಾ ಅಯ್ಯರ್": "name.meeraIyer",
-  "ananya rao": "name.ananyaRao",
-  "ananya": "name.ananyaRao",
-  "अनन्या राव": "name.ananyaRao",
-  "ಅನನ್ಯಾ ರಾವ್": "name.ananyaRao",
-  "ramesh gowda": "name.rameshGowda",
-  "रमेश गौड़ा": "name.rameshGowda",
-  "ರಮೇಶ್ ಗೌಡ": "name.rameshGowda",
-  "lakshmi devi": "name.lakshmiDevi",
-  "लक्ष्मी देवी": "name.lakshmiDevi",
-  "ಲಕ್ಷ್ಮಿ ದೇವಿ": "name.lakshmiDevi",
-  "meera's kitchen": "name.meerasKitchen",
-  "meeras kitchen": "name.meerasKitchen",
-  "मीराज़ किचन": "name.meerasKitchen",
-  "ಮೀರಾಸ್ ಕಿಚನ್": "name.meerasKitchen",
-  "fresh mart bangalore": "name.freshMartBangalore",
-  "फ्रेश मार्ट बैंगलोर": "name.freshMartBangalore",
-  "ಫ್ರೆಶ್ ಮಾರ್ಟ್ ಬೆಂಗಳೂರು": "name.freshMartBangalore",
-  "green basket retail": "name.greenBasketRetail",
-  "ग्रीन बास्केट रिटेल": "name.greenBasketRetail",
-  "ಗ್ರೀನ್ ಬಾಸ್ಕೆಟ್ ರಿಟೇಲ್": "name.greenBasketRetail",
+const STORAGE_KEY = "kisanconnect.language";
+const SUPPORTED = LANGUAGES.map((l) => l.code);
 
-  // Regions & Cities
-  "kolar": "region.kolar",
-  "कोलार": "region.kolar",
-  "ಕೋಲಾರ": "region.kolar",
-  "chikkaballapur": "region.chikkaballapur",
-  "चिक्काबल्लापुर": "region.chikkaballapur",
-  "ಚಿಕ್ಕಬಳ್ಳಾಪುರ": "region.chikkaballapur",
-  "bangalore urban": "region.bangaloreUrban",
-  "बैंगलोर शहरी": "region.bangaloreUrban",
-  "ಬೆಂಗಳೂರು ನಗರ": "region.bangaloreUrban",
-  "bangalore": "region.bangalore",
-  "बैंगलोर": "region.bangalore",
-  "ಬೆಂಗಳೂರು": "region.bangalore",
-  "tumkur": "region.tumkur",
-  "तुमकुर": "region.tumkur",
-  "ತುಮಕೂರು": "region.tumkur",
-  "mysuru": "region.mysuru",
-  "मैसूरु": "region.mysuru",
-  "ಮೈಸೂರು": "region.mysuru",
-  "mandya": "region.mandya",
-  "मांड्या": "region.mandya",
-  "ಮಂಡ್ಯ": "region.mandya",
-  "karnataka": "region.karnataka",
-  "कर्नाटक": "region.karnataka",
-  "ಕರ್ನಾಟಕ": "region.karnataka",
-
-  // Days
-  "day 1": "day.day1",
-  "day 2": "day.day2",
-  "day 3": "day.day3",
-  "day 4": "day.day4",
-  "day 5": "day.day5",
-  "day 6": "day.day6",
-  "day 7": "day.day7",
-  "mon": "day.mon",
-  "tue": "day.tue",
-  "wed": "day.wed",
-  "thu": "day.thu",
-  "fri": "day.fri",
-  "sat": "day.sat",
-
-  // Months
-  "apr": "month.apr",
-  "may": "month.may",
-  "jun": "month.jun",
-  "jul": "month.jul",
-  "aug": "month.aug",
-  "sep": "month.sep",
-};
+// Read the last-used language back on boot so a farmer who switches to
+// Hindi doesn't land back on English every time they reopen the app.
+// Guarded because localStorage throws in private-mode Safari and in SSR.
+function readStoredLanguage() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && SUPPORTED.includes(stored)) return stored;
+  } catch {
+    /* storage unavailable — fall through to the default */
+  }
+  return "en";
+}
 
 const LanguageContext = createContext(null);
 export { LanguageContext };
 
+// Wraps the whole app (see main.jsx). Holds the single `language` string
+// that every translated string in the UI is derived from — changing it
+// here is what makes "switch to Hindi" instantly re-render every
+// component that calls `t(...)`, since they all read from this context.
 export function LanguageProvider({ children }) {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState(readStoredLanguage);
 
+  // Persist the choice, and keep <html lang> in sync so screen readers and
+  // the browser's own text handling know which language the page is in.
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, language);
+    } catch {
+      /* storage unavailable — the app still works, it just won't remember */
+    }
+    document.documentElement.lang = language;
+  }, [language]);
+
+  // useMemo so consumers get a stable object (and therefore don't
+  // needlessly re-render) unless `language` itself actually changes.
   const value = useMemo(() => {
     const dict = translations[language] ?? translations.en;
 
+    // t(key, vars?) -> looks up `key` in the active language, falls back
+    // to English, then to the raw key so a typo never crashes the UI.
+    // `vars` does simple {placeholder} substitution, e.g.
+    // t("topbar.welcome", { name: "Suresh" }) -> "Welcome back, Suresh".
     function t(key, vars) {
-      if (typeof key !== "string") return key;
-      let lookupKey = key;
-      if (!dict[lookupKey] && !translations.en[lookupKey]) {
-        const alias = ENTITY_ALIASES[key.toLowerCase().trim()];
-        if (alias) lookupKey = alias;
-      }
-      let text = dict[lookupKey] ?? translations.en[lookupKey] ?? key;
+      let text = dict[key] ?? translations.en[key] ?? key;
       if (vars) {
         for (const [k, v] of Object.entries(vars)) {
-          let resolvedVal = v;
-          if (typeof v === "string") {
-            const alias = ENTITY_ALIASES[v.toLowerCase().trim()];
-            if (alias && (dict[alias] || translations.en[alias])) {
-              resolvedVal = dict[alias] ?? translations.en[alias];
-            }
-          }
-          text = text.replace(new RegExp(`\\{${k}\\}`, "g"), resolvedVal);
+          text = text.replace(`{${k}}`, v);
         }
       }
       return text;
@@ -135,6 +77,8 @@ export function LanguageProvider({ children }) {
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
+// Consumed as `const { t, language, setLanguage, speechLang } = useLanguage();`
+// throughout the app instead of importing translations.js directly.
 export function useLanguage() {
   const ctx = useContext(LanguageContext);
   if (!ctx) throw new Error("useLanguage() must be used inside <LanguageProvider>");

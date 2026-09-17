@@ -3,7 +3,7 @@
 // dense, per the "don't make it overcrowded" brief.
 export default function StatCard({ label, value, delta }) {
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white p-5">
+    <div className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
       <p className="text-sm text-stone-500">{label}</p>
       <p className="mt-2 text-2xl font-bold text-stone-900">{value}</p>
       <p className="mt-1 text-xs text-emerald-600">{delta}</p>
