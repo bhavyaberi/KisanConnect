@@ -1,0 +1,32 @@
+{
+  "_note": "Synthetic demo data - made-up coordinates and orders, not real KhetSetu data.",
+  "vehicle_capacity_kg": 40,
+  "partner_start": { "name": "Delivery Partner - Home", "lat": 31.2240, "lon": 75.7708 },
+  "orders": [
+    {
+      "order_id": "KS-101", "item": "Tomatoes", "quantity": 15, "unit": "kg",
+      "fpo": { "name": "Green Valley FPO", "lat": 31.2600, "lon": 75.7200 },
+      "buyer": { "name": "Consumer - Model Town", "lat": 31.2350, "lon": 75.7600 }
+    },
+    {
+      "order_id": "KS-102", "item": "Spinach", "quantity": 20, "unit": "bunch",
+      "fpo": { "name": "Green Valley FPO", "lat": 31.2600, "lon": 75.7200 },
+      "buyer": { "name": "Consumer - Guru Nanak Colony", "lat": 31.2900, "lon": 75.7900 }
+    },
+    {
+      "order_id": "KS-103", "item": "Wheat", "quantity": 30, "unit": "kg",
+      "fpo": { "name": "Malwa Kisan FPO", "lat": 31.1900, "lon": 75.8000 },
+      "buyer": { "name": "Bulk Buyer - Sabzi Mandi Stall", "lat": 31.2100, "lon": 75.7500 }
+    },
+    {
+      "order_id": "KS-104", "item": "Potatoes", "quantity": 12, "unit": "kg",
+      "fpo": { "name": "Hill Fresh FPO", "lat": 31.3000, "lon": 75.7600 },
+      "buyer": { "name": "Consumer - Civil Lines", "lat": 31.2700, "lon": 75.7300 }
+    },
+    {
+      "order_id": "KS-105", "item": "Weekly Veg Basket", "quantity": 2, "unit": "week",
+      "fpo": { "name": "Green Valley FPO", "lat": 31.2600, "lon": 75.7200 },
+      "buyer": { "name": "Consumer - Industrial Area", "lat": 31.1950, "lon": 75.7100 }
+    }
+  ]
+}
