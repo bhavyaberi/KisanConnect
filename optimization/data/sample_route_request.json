@@ -1,5 +1,4 @@
 {
-  "_note": "Synthetic demo data - made-up coordinates and orders, not real KhetSetu data.",
   "vehicle_capacity_kg": 40,
   "partner_start": { "name": "Delivery Partner - Home", "lat": 31.2240, "lon": 75.7708 },
   "orders": [

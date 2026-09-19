@@ -1,14 +1,13 @@
 """
 api.py
 ------
-Small FastAPI service for KhetSetu's delivery route planning.
+FastAPI service exposing the route optimizer to the rest of KhetSetu.
 
-Run:
-    cd optimization
+Run from the optimization/ folder:
     uvicorn src.api:app --reload --port 8001
-Docs: http://127.0.0.1:8001/docs
+Interactive docs: http://127.0.0.1:8001/docs
 
-The React app (Vite, port 5173) can call it directly - CORS is enabled below.
+CORS is enabled for the Vite dev server so the React app can call it directly.
 """
 
 from fastapi import FastAPI, HTTPException
@@ -19,15 +18,17 @@ from src.heuristic import greedy_route
 from src.units import to_kg
 from src.vrp_ortools import solve_delivery_route
 
-app = FastAPI(title="KhetSetu Delivery Route Service")
+app = FastAPI(title="KhetSetu Route Optimization Service")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],  # Vite dev server
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+
+# ---------------------------- request / response ----------------------------
 
 class Location(BaseModel):
     name: str
@@ -37,25 +38,25 @@ class Location(BaseModel):
 
 class Order(BaseModel):
     order_id: str
-    item: str = ""                                   # e.g. "Tomatoes"
+    item: str = ""                 # e.g. "Tomatoes"
     quantity: float = Field(gt=0)
-    unit: str = "kg"                                 # kg / bunch / dozen / pc / week
-    fpo: Location                                    # pickup: the FPO
-    buyer: Location                                  # drop: consumer or bulk buyer
+    unit: str = "kg"               # kg | bunch | dozen | pc | week
+    fpo: Location                  # pickup point
+    buyer: Location                # drop point (consumer or bulk buyer)
 
 
 class RouteRequest(BaseModel):
     vehicle_capacity_kg: float = Field(gt=0, default=40)
-    partner_start: Location                          # delivery partner's starting point
+    partner_start: Location        # delivery partner's starting point
     orders: list[Order]
 
 
 class Stop(BaseModel):
     name: str
-    kind: str                                        # "start" | "pickup" | "drop"
+    kind: str                      # "start" | "pickup" | "drop"
     order_id: str | None = None
     item: str = ""
-    load_after_kg: float
+    load_after_kg: float           # kg on the vehicle after this stop
 
 
 class RouteResponse(BaseModel):
@@ -68,6 +69,7 @@ class RouteResponse(BaseModel):
 
 
 def _prepare(request: RouteRequest):
+    """Convert the request into the plain dicts the solver uses (quantities -> kg)."""
     try:
         orders = [
             {
@@ -84,19 +86,22 @@ def _prepare(request: RouteRequest):
     return request.partner_start.model_dump(), orders
 
 
+# --------------------------------- endpoints ---------------------------------
+
 @app.get("/")
 def health_check():
-    return {"status": "ok", "service": "KhetSetu Delivery Route Service"}
+    return {"status": "ok", "service": "KhetSetu Route Optimization Service"}
 
 
 @app.post("/optimize-route", response_model=RouteResponse)
 def optimize_route(request: RouteRequest):
+    """Optimized route for one delivery partner."""
     start, orders = _prepare(request)
     return solve_delivery_route(start, orders, request.vehicle_capacity_kg)
 
 
-@app.post("/optimize-route/simple")
-def optimize_route_simple(request: RouteRequest):
-    """Greedy baseline, for comparison with the optimized route."""
+@app.post("/optimize-route/baseline")
+def optimize_route_baseline(request: RouteRequest):
+    """Greedy nearest-stop route, for comparison with the optimized one."""
     start, orders = _prepare(request)
     return greedy_route(start, orders, request.vehicle_capacity_kg)
